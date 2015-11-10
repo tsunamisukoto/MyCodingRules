@@ -1,4 +1,4 @@
-package com.mcr.lgss.questionresolved;
+package com.mcr.lgss.questionresolved.Services;
 
 /**
  * Created by scott on 10/11/2015.
@@ -12,6 +12,8 @@ import android.content.ContentValues;
 import android.content.Context;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
+
+import com.mcr.lgss.questionresolved.Entities.Person;
 
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;

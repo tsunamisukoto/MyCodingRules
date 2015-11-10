@@ -1,4 +1,4 @@
-package com.mcr.lgss.questionresolved;
+package com.mcr.lgss.questionresolved.Entities;
 
 /**
  * Created by scott on 10/11/2015.

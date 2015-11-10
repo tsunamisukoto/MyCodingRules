@@ -1,4 +1,4 @@
-package com.mcr.lgss.questionresolved;
+package com.mcr.lgss.questionresolved.Views;
 
 import android.app.Activity;
 import android.app.AlertDialog;
@@ -11,6 +11,9 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.Toast;
+
+import com.mcr.lgss.questionresolved.R;
+import com.mcr.lgss.questionresolved.Services.DatabaseHelper;
 
 public class HomeScreen extends AppCompatActivity {
     DatabaseHelper dbHelper;
