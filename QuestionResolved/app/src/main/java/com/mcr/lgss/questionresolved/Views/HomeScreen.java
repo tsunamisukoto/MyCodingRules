@@ -45,6 +45,9 @@ public class HomeScreen extends AppCompatActivity {
                 Toast toast = Toast.makeText(this, "Content:" + contents + " Format:" + format, Toast.LENGTH_LONG);
 
                 toast.show();
+                Intent i = new Intent(HomeScreen.this, ViewPerson.class);
+                i.putExtra("ID", contents);
+                startActivity(i);
             }
         }
     }

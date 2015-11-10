@@ -10,6 +10,7 @@ package com.mcr.lgss.questionresolved.Services;
 
 import android.content.ContentValues;
 import android.content.Context;
+import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 
@@ -30,7 +31,12 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         db.execSQL("DROP TABLE IF EXISTS "+ Person.TableName);
 
         db.execSQL(Person.CreateTable());
-
+        InsertPerson(new Person(1, "Name", "Description", "Image".getBytes()), db);
+        InsertPerson(new Person(1, "Name2","Description","Image".getBytes()),db);
+        InsertPerson(new Person(1, "Name3","Description","Image".getBytes()),db);
+        InsertPerson(new Person(1, "Name4","Description","Image".getBytes()),db);
+        InsertPerson(new Person(1, "Name5","Description","Image".getBytes()),db);
+        InsertPerson(new Person(1, "Name6","Description","Image".getBytes()),db);
     }
 
     @Override
@@ -47,12 +53,24 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         if(db==null )
             db=this.getWritableDatabase();
         ContentValues cv = new ContentValues();
-        cv.put(Person.colID,p.ID    );
         cv.put(Person.colName,p.Name);
         cv.put(Person.colDescription,p.Description);
         cv.put(Person.colImage,p.Image);
         return db.insert(Person.TableName,Person.colID,cv);
 
     }
+    public Person GetPerson(int id)
+    {
+        SQLiteDatabase db=this.getReadableDatabase();
+        Cursor cur = db.rawQuery("SELECT "+ Person.colID+", "+ Person.colName+", " +Person.colDescription+", "+Person.colImage+" FROM "+ Person.TableName+" WHERE "+ Person.colID+ "=?",new String[]{id+""});
+        if(cur.moveToFirst())
+        {
+            Person p  = new Person(cur.getInt(cur.getColumnIndex(Person.colID)),cur.getString(cur.getColumnIndex(Person.colName)),cur.getString(cur.getColumnIndex(Person.colDescription)),"test".getBytes());
+
+            return p;
+        }
+        return null;
+    }
+
 
 }
