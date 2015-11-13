@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.v7.widget.Toolbar xmlns:android="HTTP://SCHEMAS.ANDROID.COM/APK/RES/ANDROID"
+    xmlns:android2="http://schemas.android.com/apk/res/android"
+    android2:id="@+id/toolbar"
+    android2:minHeight="?attr/actionBarSize"
+    android2:background="?attr/colorPrimary"
+    android2:layout_width="match_parent"
+    android2:layout_height="match_parent">
+
+</android.support.v7.widget.Toolbar>

@@ -13,11 +13,15 @@ import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
+import android.net.ParseException;
 
 import com.mcr.lgss.questionresolved.Entities.Person;
 
+import java.lang.reflect.Array;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+
 public class DatabaseHelper extends SQLiteOpenHelper {
     public static final String dbName="CalcuPayTerDatabase";
 
@@ -70,6 +74,25 @@ public class DatabaseHelper extends SQLiteOpenHelper {
             return p;
         }
         return null;
+    }
+    public ArrayList<Person> GetPeople(ArrayList<Person> list)
+    {
+        list.clear();
+        SQLiteDatabase db=this.getReadableDatabase();
+        Cursor cur=db.rawQuery("SELECT "+Person.colID+" , "+Person.colName+", "+Person.colDescription+" from "+Person.TableName+" ORDER BY " + Person.colName,new String [] {});
+
+        for (cur.moveToFirst(); !cur.isAfterLast(); cur.moveToNext()) {
+
+            try {
+                Person p = new Person(cur.getInt(cur.getColumnIndex(Person.colID)),(cur.getString(cur.getColumnIndex(Person.colName))),(cur.getString(cur.getColumnIndex(Person.colDescription))), null);
+
+                list.add(p);
+            } catch (ParseException e) {
+                e.printStackTrace();
+            }
+        }
+        cur.close();
+        return list ;
     }
 
 
