@@ -1,6 +1,7 @@
-package com.mcr.lgss.questionresolved;
+package com.mcr.lgss.questionresolved.Views;
 
 import android.app.Activity;
+import android.content.Context;
 import android.net.Uri;
 import android.os.Bundle;
 import android.app.Fragment;
@@ -8,24 +9,23 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.mcr.lgss.questionresolved.R;
 
 /**
  * A simple {@link Fragment} subclass.
  * Activities that contain this fragment must implement the
- * {@link UserFragment.OnFragmentInteractionListener} interface
+ * {@link ViewUserFragment.OnFragmentInteractionListener} interface
  * to handle interaction events.
- * Use the {@link UserFragment#newInstance} factory method to
+ * Use the {@link ViewUserFragment#newInstance} factory method to
  * create an instance of this fragment.
  */
-public class UserFragment extends Fragment {
+public class ViewUserFragment extends Fragment {
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
-    public static final String ARG_PARAM1 = "param1";
-    public static final String ARG_PARAM2 = "param2";
+    public static final String ARG_USERID = "param1";
 
     // TODO: Rename and change types of parameters
-    private String mParam1;
-    private String mParam2;
+    private String userID;
 
     private OnFragmentInteractionListener mListener;
 
@@ -34,20 +34,18 @@ public class UserFragment extends Fragment {
      * this fragment using the provided parameters.
      *
      * @param param1 Parameter 1.
-     * @param param2 Parameter 2.
-     * @return A new instance of fragment UserFragment.
+     * @return A new instance of fragment ViewUserFragment.
      */
     // TODO: Rename and change types and number of parameters
-    public static UserFragment newInstance(String param1, String param2) {
-        UserFragment fragment = new UserFragment();
+    public static ViewUserFragment newInstance(String param1) {
+        ViewUserFragment fragment = new ViewUserFragment();
         Bundle args = new Bundle();
-        args.putString(ARG_PARAM1, param1);
-        args.putString(ARG_PARAM2, param2);
+        args.putString(ARG_USERID, param1);
         fragment.setArguments(args);
         return fragment;
     }
 
-    public UserFragment() {
+    public ViewUserFragment() {
         // Required empty public constructor
     }
 
@@ -55,16 +53,16 @@ public class UserFragment extends Fragment {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         if (getArguments() != null) {
-            mParam1 = getArguments().getString(ARG_PARAM1);
-            mParam2 = getArguments().getString(ARG_PARAM2);
+            userID = getArguments().getString(ARG_USERID);
         }
+        
     }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_user, container, false);
+        return inflater.inflate(R.layout.fragment_view_user, container, false);
     }
 
     // TODO: Rename method, update argument and hook method into UI event
@@ -74,7 +72,16 @@ public class UserFragment extends Fragment {
         }
     }
 
-
+    @Override
+    public void onAttach(Context activity) {
+        super.onAttach(activity);
+        try {
+            mListener = (OnFragmentInteractionListener) activity;
+        } catch (ClassCastException e) {
+            throw new ClassCastException(activity.toString()
+                    + " must implement OnAllUsersFragmentInteractionListener");
+        }
+    }
 
     @Override
     public void onDetach() {

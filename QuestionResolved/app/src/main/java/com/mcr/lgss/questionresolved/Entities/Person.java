@@ -30,4 +30,9 @@ public class Person {
         Description= _description;
         Image=_image;
     }
+
+    @Override
+    public String toString() {
+        return Name;
+    }
 }
