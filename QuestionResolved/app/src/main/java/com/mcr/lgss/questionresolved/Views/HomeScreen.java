@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.Fragment;
 import android.app.FragmentManager;
+import android.app.FragmentTransaction;
 import android.content.ActivityNotFoundException;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -13,6 +14,8 @@ import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
+import android.transition.Slide;
+import android.transition.TransitionInflater;
 import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
@@ -38,6 +41,8 @@ public class HomeScreen extends AppCompatActivity implements ViewAllUsersFragmen
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+
         dbHelper = new DatabaseHelper(getApplicationContext());
         setContentView(R.layout.activity_home_screen);
 
@@ -98,9 +103,11 @@ public class HomeScreen extends AppCompatActivity implements ViewAllUsersFragmen
         fragment.setArguments(args);
         // Insert the fragment by replacing any existing fragment
         FragmentManager fragmentManager = getFragmentManager();
-        fragmentManager.beginTransaction()
-                .replace(R.id.content_frame, fragment)
-                .commit();
+
+        FragmentTransaction man = fragmentManager.beginTransaction();
+        man.setCustomAnimations(R.transition.activity_slide, R.transition.activity_slideout);
+        man.replace(R.id.content_frame, fragment).addToBackStack( null );
+        man.commit();
     }
 
     private class DrawerItemClickListener implements ListView.OnItemClickListener {
@@ -127,7 +134,7 @@ public class HomeScreen extends AppCompatActivity implements ViewAllUsersFragmen
                 fragment.setArguments(args);
                 FragmentManager fragmentManager = getFragmentManager();
                 fragmentManager.beginTransaction()
-                        .replace(R.id.content_frame, fragment)
+                        .replace(R.id.content_frame, fragment).addToBackStack( null )
                         .commit();
                 break;
         }
@@ -163,7 +170,7 @@ public class HomeScreen extends AppCompatActivity implements ViewAllUsersFragmen
                 fragment.setArguments(args);
                 FragmentManager fragmentManager = getFragmentManager();
                 fragmentManager.beginTransaction()
-                        .replace(R.id.content_frame, fragment)
+                        .replace(R.id.content_frame, fragment).addToBackStack(null )
                         .commit();
             }
         }

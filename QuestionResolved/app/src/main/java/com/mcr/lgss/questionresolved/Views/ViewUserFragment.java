@@ -86,8 +86,6 @@ public class ViewUserFragment extends Fragment {
         if (getArguments() != null) {
             userID = getArguments().getInt(ARG_USERID);
 
-            try
-            {
                 int id = (userID);
                 txt_id.append(" "+id);
 
@@ -106,11 +104,6 @@ public class ViewUserFragment extends Fragment {
                 }
 
 
-            }
-            catch (Exception e)
-            {
-                Log.e("ERROR",e.getMessage());
-            }
 
         }
         return v;
