@@ -2,14 +2,19 @@ package com.mcr.lgss.questionresolved.Views;
 
 import android.app.Activity;
 import android.content.Context;
+import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 import android.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
+import android.widget.TextView;
 
+import com.mcr.lgss.questionresolved.Entities.Person;
 import com.mcr.lgss.questionresolved.R;
+import com.mcr.lgss.questionresolved.Services.DatabaseHelper;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -54,6 +59,34 @@ public class ViewUserFragment extends Fragment {
         super.onCreate(savedInstanceState);
         if (getArguments() != null) {
             userID = getArguments().getString(ARG_USERID);
+
+            Button btnEdit = (Button) getView().findViewById(R.id.btn_edit);
+            btnEdit.setOnClickListener(new View.OnClickListener() {
+                public void onClick(View v) {
+//                    goToEdit(v);
+                }
+            });
+
+            TextView txt_id = (TextView) getView().findViewById(R.id.lbl_id);
+            TextView txt_name = (TextView)  getView().findViewById(R.id.lbl_name);
+            TextView txt_desc = (TextView) getView().findViewById(R.id.lbl_description);
+            TextView txt_missing = (TextView) getView().findViewById(R.id.lbl_missing);
+
+            int id = Integer.parseInt(userID);
+            txt_id.setText(id + "");
+
+            DatabaseHelper dbHelper = new DatabaseHelper(getActivity().getApplicationContext());
+            Person person = dbHelper.GetPerson(id);
+
+            if(person != null) {
+                txt_name.setText(person.Name+"");
+                txt_desc.setText(person.Description+"");
+            } else {
+                btnEdit.setVisibility(View.INVISIBLE);
+                txt_missing.setVisibility(View.VISIBLE);
+                txt_name.setVisibility(View.INVISIBLE);
+                txt_desc.setVisibility(View.INVISIBLE);
+            }
         }
         
     }

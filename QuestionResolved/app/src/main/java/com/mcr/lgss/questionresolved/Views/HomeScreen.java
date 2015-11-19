@@ -154,12 +154,14 @@ public class HomeScreen extends AppCompatActivity implements ViewAllUsersFragmen
 
                 String format = intent.getStringExtra("SCAN_RESULT_FORMAT");
 
-                Toast toast = Toast.makeText(this, "Content:" + contents + " Format:" + format, Toast.LENGTH_LONG);
-
-                toast.show();
                 fragment  = new ViewUserFragment();
                 args.putInt(ViewUserFragment.ARG_USERID, Integer.parseInt(contents));
                 fragment.setArguments(args);
+
+                FragmentManager fragmentManager = getFragmentManager();
+                fragmentManager.beginTransaction()
+                        .replace(R.id.content_frame, fragment)
+                        .commit();
             }
         }
     }

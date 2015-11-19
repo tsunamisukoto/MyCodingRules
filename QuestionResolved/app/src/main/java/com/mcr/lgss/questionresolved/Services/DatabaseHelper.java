@@ -95,5 +95,14 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         return list ;
     }
 
+    public long UpdatePerson(Person p, SQLiteDatabase db)
+    {
+        if(db == null)
+            db = this.getWritableDatabase();
+        ContentValues cv = new ContentValues();
+        cv.put(p.colName, p.Name);
+        cv.put(p.colDescription, p.Description);
 
+        return db.update(Person.TableName, cv, Person.colID+"=?",  new String[]{String.valueOf(p.ID)});
+    }
 }
