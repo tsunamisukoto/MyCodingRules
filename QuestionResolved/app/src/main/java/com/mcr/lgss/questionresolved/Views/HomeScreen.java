@@ -94,7 +94,7 @@ public class HomeScreen extends AppCompatActivity implements ViewAllUsersFragmen
         Bundle args = new Bundle();
 
         fragment  = new ViewUserFragment();
-        args.putInt(ViewUserFragment.ARG_USERID,( id));
+        args.putInt(ViewUserFragment.ARG_USERID, (id));
         fragment.setArguments(args);
         // Insert the fragment by replacing any existing fragment
         FragmentManager fragmentManager = getFragmentManager();
@@ -155,9 +155,12 @@ public class HomeScreen extends AppCompatActivity implements ViewAllUsersFragmen
                 String format = intent.getStringExtra("SCAN_RESULT_FORMAT");
 
                 fragment  = new ViewUserFragment();
-                args.putInt(ViewUserFragment.ARG_USERID, Integer.parseInt(contents));
-                fragment.setArguments(args);
 
+
+                args.putInt(ViewUserFragment.ARG_USERID, Integer.parseInt(contents));
+
+
+                fragment.setArguments(args);
                 FragmentManager fragmentManager = getFragmentManager();
                 fragmentManager.beginTransaction()
                         .replace(R.id.content_frame, fragment)

@@ -6,6 +6,7 @@ import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 import android.app.Fragment;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -30,7 +31,7 @@ public class ViewUserFragment extends Fragment {
     public static final String ARG_USERID = "param1";
 
     // TODO: Rename and change types of parameters
-    private String userID;
+    private int userID;
 
     private OnFragmentInteractionListener mListener;
 
@@ -57,45 +58,62 @@ public class ViewUserFragment extends Fragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        if (getArguments() != null) {
-            userID = getArguments().getString(ARG_USERID);
 
-            Button btnEdit = (Button) getView().findViewById(R.id.btn_edit);
-            btnEdit.setOnClickListener(new View.OnClickListener() {
-                public void onClick(View v) {
-//                    goToEdit(v);
-                }
-            });
-
-            TextView txt_id = (TextView) getView().findViewById(R.id.lbl_id);
-            TextView txt_name = (TextView)  getView().findViewById(R.id.lbl_name);
-            TextView txt_desc = (TextView) getView().findViewById(R.id.lbl_description);
-            TextView txt_missing = (TextView) getView().findViewById(R.id.lbl_missing);
-
-            int id = Integer.parseInt(userID);
-            txt_id.setText(id + "");
-
-            DatabaseHelper dbHelper = new DatabaseHelper(getActivity().getApplicationContext());
-            Person person = dbHelper.GetPerson(id);
-
-            if(person != null) {
-                txt_name.setText(person.Name+"");
-                txt_desc.setText(person.Description+"");
-            } else {
-                btnEdit.setVisibility(View.INVISIBLE);
-                txt_missing.setVisibility(View.VISIBLE);
-                txt_name.setVisibility(View.INVISIBLE);
-                txt_desc.setVisibility(View.INVISIBLE);
-            }
-        }
         
     }
-
+ TextView txt_id;
+    TextView txt_name;
+    TextView txt_desc;
+    TextView txt_missing;
+    Button btnEdit;
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_view_user, container, false);
+       View v=inflater.inflate(R.layout.fragment_view_user, container, false);
+         btnEdit= (Button) v.findViewById(R.id.btn_edit);
+        btnEdit.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View v) {
+//                    goToEdit(v);
+            }
+        });
+
+        txt_id = (TextView) v.findViewById(R.id.lbl_id);
+
+        txt_name= (TextView)  v.findViewById(R.id.lbl_name);
+        txt_desc= (TextView) v.findViewById(R.id.lbl_description);
+        txt_missing= (TextView) v.findViewById(R.id.lbl_missing);
+        if (getArguments() != null) {
+            userID = getArguments().getInt(ARG_USERID);
+
+            try
+            {
+                int id = (userID);
+                txt_id.append(" "+id);
+
+                DatabaseHelper dbHelper = new DatabaseHelper(getActivity().getApplicationContext());
+                Person person = dbHelper.GetPerson(id);
+
+                if(person != null) {
+                    txt_name.append(" " +person.Name);
+                    txt_desc.append(" " + person.Description);
+
+                } else {
+                    btnEdit.setVisibility(View.INVISIBLE);
+                    txt_missing.setVisibility(View.VISIBLE);
+                    txt_name.setVisibility(View.INVISIBLE);
+                    txt_desc.setVisibility(View.INVISIBLE);
+                }
+
+
+            }
+            catch (Exception e)
+            {
+                Log.e("ERROR",e.getMessage());
+            }
+
+        }
+        return v;
     }
 
     // TODO: Rename method, update argument and hook method into UI event
