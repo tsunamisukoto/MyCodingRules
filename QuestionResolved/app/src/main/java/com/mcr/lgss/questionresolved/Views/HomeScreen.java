@@ -29,7 +29,7 @@ import com.mcr.lgss.questionresolved.Services.DatabaseHelper;
 
 import java.util.ArrayList;
 
-public class HomeScreen extends AppCompatActivity implements ViewAllUsersFragment.OnAllUsersFragmentInteractionListener {
+public class HomeScreen extends AppCompatActivity implements ViewAllUsersFragment.OnAllUsersFragmentInteractionListener  ,ViewUserFragment.OnViewUserFragmentInteractionListener{
     DatabaseHelper dbHelper;
     private String[] mPlanetTitles=new String[]{"Register New User", "Scan For User", "View All Users"};
     private ListView mDrawerList;
@@ -126,6 +126,24 @@ public class HomeScreen extends AppCompatActivity implements ViewAllUsersFragmen
                 man.commit();
                 break;
         }
+    }
+
+    @Override
+    public void onViewUserFragmentInteraction(int id) {
+        Fragment fragment=null;
+
+        FragmentManager fragmentManager = getFragmentManager();
+        Bundle args = new Bundle();
+
+        FragmentTransaction man = fragmentManager.beginTransaction();
+        fragment  = new EditUserFragment();
+        args.putInt(ViewUserFragment.ARG_USERID, (id));
+        fragment.setArguments(args);
+        // Insert the fragment by replacing any existing fragment
+
+        man.setCustomAnimations(R.transition.activity_slide, R.transition.activity_slideout);
+        man.replace(R.id.content_frame, fragment).addToBackStack( null );
+        man.commit();
     }
 
     private class DrawerItemClickListener implements ListView.OnItemClickListener {

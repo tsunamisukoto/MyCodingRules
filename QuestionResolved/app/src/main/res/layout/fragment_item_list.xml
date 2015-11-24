@@ -15,5 +15,6 @@
         android:layout_height="70dp"
         android:background="@drawable/circle"
         android:id="@+id/btn_add"
+        android:src="@android:drawable/ic_input_add"
         android:layout_gravity="right|bottom" />
 </FrameLayout>

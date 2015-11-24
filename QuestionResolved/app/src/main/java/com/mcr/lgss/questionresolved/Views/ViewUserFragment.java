@@ -1,8 +1,6 @@
 package com.mcr.lgss.questionresolved.Views;
 
-import android.app.Activity;
 import android.content.Context;
-import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 import android.app.Fragment;
@@ -10,7 +8,6 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.TextView;
 
@@ -21,7 +18,7 @@ import com.mcr.lgss.questionresolved.Services.DatabaseHelper;
 /**
  * A simple {@link Fragment} subclass.
  * Activities that contain this fragment must implement the
- * {@link ViewUserFragment.OnFragmentInteractionListener} interface
+ * {@link OnViewUserFragmentInteractionListener} interface
  * to handle interaction events.
  * Use the {@link ViewUserFragment#newInstance} factory method to
  * create an instance of this fragment.
@@ -34,7 +31,7 @@ public class ViewUserFragment extends Fragment {
     // TODO: Rename and change types of parameters
     private int userID;
 
-    private OnFragmentInteractionListener mListener;
+    private OnViewUserFragmentInteractionListener mListener;
 
     /**
      * Use this factory method to create a new instance of
@@ -73,12 +70,7 @@ public class ViewUserFragment extends Fragment {
         // Inflate the layout for this fragment
        View v=inflater.inflate(R.layout.fragment_view_user, container, false);
          btnEdit= (ImageButton) v.findViewById(R.id.btn_edit);
-        btnEdit.setOnClickListener(new View.OnClickListener() {
-            public void onClick(View v) {
-//                    goToEdit(v);
 
-            }
-        });
 
         txt_id = (TextView) v.findViewById(R.id.lbl_id);
 
@@ -88,7 +80,13 @@ public class ViewUserFragment extends Fragment {
         if (getArguments() != null) {
             userID = getArguments().getInt(ARG_USERID);
 
-                int id = (userID);
+                final int id = (userID);
+            btnEdit.setOnClickListener(new View.OnClickListener() {
+                public void onClick(View v) {
+//                    goToEdit(v);
+                    onButtonPressed(id);
+                }
+            });
                 txt_id.append(" "+id);
 
                 DatabaseHelper dbHelper = new DatabaseHelper(getActivity().getApplicationContext());
@@ -112,9 +110,9 @@ public class ViewUserFragment extends Fragment {
     }
 
     // TODO: Rename method, update argument and hook method into UI event
-    public void onButtonPressed(Uri uri) {
+    public void onButtonPressed(int uri) {
         if (mListener != null) {
-            mListener.onFragmentInteraction(uri);
+            mListener.onViewUserFragmentInteraction(uri);
         }
     }
 
@@ -122,7 +120,7 @@ public class ViewUserFragment extends Fragment {
     public void onAttach(Context activity) {
         super.onAttach(activity);
         try {
-            mListener = (OnFragmentInteractionListener) activity;
+            mListener = (OnViewUserFragmentInteractionListener) activity;
         } catch (ClassCastException e) {
             throw new ClassCastException(activity.toString()
                     + " must implement OnAllUsersFragmentInteractionListener");
@@ -145,9 +143,9 @@ public class ViewUserFragment extends Fragment {
      * "http://developer.android.com/training/basics/fragments/communicating.html"
      * >Communicating with Other Fragments</a> for more information.
      */
-    public interface OnFragmentInteractionListener {
+    public interface OnViewUserFragmentInteractionListener {
         // TODO: Update argument type and name
-        public void onFragmentInteraction(Uri uri);
+        public void onViewUserFragmentInteraction(int id);
     }
 
 }

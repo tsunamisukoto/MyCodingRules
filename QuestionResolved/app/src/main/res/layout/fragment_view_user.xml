@@ -23,6 +23,7 @@
             android:layout_height="70dp"
             android:background="@drawable/circle"
             android:id="@+id/btn_edit"
+            android:src="@android:drawable/ic_menu_edit"
             android:layout_gravity="right|bottom" />
 
         <LinearLayout
