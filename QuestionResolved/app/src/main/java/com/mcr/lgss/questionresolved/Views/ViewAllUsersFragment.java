@@ -1,6 +1,7 @@
 package com.mcr.lgss.questionresolved.Views;
 
 import android.app.Activity;
+import android.media.Image;
 import android.os.Bundle;
 import android.app.Fragment;
 import android.view.LayoutInflater;
@@ -9,6 +10,7 @@ import android.view.ViewGroup;
 import android.widget.AbsListView;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.ImageButton;
 import android.widget.ListAdapter;
 import android.widget.TextView;
 
@@ -30,7 +32,7 @@ import java.util.List;
  * Activities containing this fragment MUST implement the {@link OnAllUsersFragmentInteractionListener}
  * interface.
  */
-public class ViewAllUsersFragment extends Fragment implements AbsListView.OnItemClickListener {
+public class ViewAllUsersFragment extends Fragment implements AbsListView.OnItemClickListener, View.OnClickListener {
 
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -105,13 +107,21 @@ ArrayList<Person> people=new ArrayList<>();
         // Set the adapter
         mListView = (AbsListView) view.findViewById(android.R.id.list);
         ((AdapterView<ListAdapter>) mListView).setAdapter(mAdapter);
-
+        ImageButton btnAdd =(ImageButton) view.findViewById(R.id.btn_add);
+        btnAdd.setOnClickListener(this  );
         // Set OnItemClickListener so we can be notified on item clicks
         mListView.setOnItemClickListener(this);
 
         return view;
     }
 
+    @Override
+    public void onClick(View v) {
+        mListener.onAllUsersFragmentInteraction(Operation.Add,-1);
+
+    }
+
+    public enum Operation{Add, View};
 
 
     @Override
@@ -126,7 +136,7 @@ ArrayList<Person> people=new ArrayList<>();
             // Notify the active callbacks interface (the activity, if the
             // fragment is attached to one) that an item has been selected.
 
-           mListener.onAllUsersFragmentInteraction(people.get(position).ID);
+           mListener.onAllUsersFragmentInteraction(Operation.View,people.get(position).ID);
         }
     }
 
@@ -157,7 +167,7 @@ ArrayList<Person> people=new ArrayList<>();
      */
 
     public interface OnAllUsersFragmentInteractionListener {
-        public void onAllUsersFragmentInteraction(int id);
+        public void onAllUsersFragmentInteraction(Operation operation,int id);
 
     }
 

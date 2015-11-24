@@ -21,11 +21,6 @@ public class HomeScreenFragment extends Fragment {
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
 
-    // TODO: Rename and change types of parameters
-    private String mParam1;
-    private String mParam2;
-
-
     /**
      * Use this factory method to create a new instance of
      * this fragment using the provided parameters.

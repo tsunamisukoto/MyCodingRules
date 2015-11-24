@@ -41,10 +41,10 @@ public class HomeScreen extends AppCompatActivity implements ViewAllUsersFragmen
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_home_screen);
 
 
         dbHelper = new DatabaseHelper(getApplicationContext());
-        setContentView(R.layout.activity_home_screen);
 
         mDrawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
         mDrawerList = (ListView) findViewById(R.id.left_drawer);
@@ -93,21 +93,39 @@ public class HomeScreen extends AppCompatActivity implements ViewAllUsersFragmen
     }
 
     @Override
-    public void onAllUsersFragmentInteraction(int id) {
+    public void onAllUsersFragmentInteraction(ViewAllUsersFragment.Operation op,int id) {
+
         Fragment fragment=null;
 
+        FragmentManager fragmentManager = getFragmentManager();
         Bundle args = new Bundle();
 
-        fragment  = new ViewUserFragment();
-        args.putInt(ViewUserFragment.ARG_USERID, (id));
-        fragment.setArguments(args);
-        // Insert the fragment by replacing any existing fragment
-        FragmentManager fragmentManager = getFragmentManager();
-
         FragmentTransaction man = fragmentManager.beginTransaction();
-        man.setCustomAnimations(R.transition.activity_slide, R.transition.activity_slideout);
-        man.replace(R.id.content_frame, fragment).addToBackStack( null );
-        man.commit();
+        switch ( op)
+        {
+
+            case Add:
+
+                fragment  = new ViewUserFragment();
+                args.putInt(ViewUserFragment.ARG_USERID, (id));
+                fragment.setArguments(args);
+                // Insert the fragment by replacing any existing fragment
+                man.setCustomAnimations(R.transition.activity_slide, R.transition.activity_slideout);
+                man.replace(R.id.content_frame, fragment).addToBackStack( null );
+                man.commit();
+                break;
+            case View:
+
+                fragment  = new ViewUserFragment();
+                args.putInt(ViewUserFragment.ARG_USERID, (id));
+                fragment.setArguments(args);
+                // Insert the fragment by replacing any existing fragment
+
+                man.setCustomAnimations(R.transition.activity_slide, R.transition.activity_slideout);
+                man.replace(R.id.content_frame, fragment).addToBackStack( null );
+                man.commit();
+                break;
+        }
     }
 
     private class DrawerItemClickListener implements ListView.OnItemClickListener {
@@ -125,6 +143,7 @@ public class HomeScreen extends AppCompatActivity implements ViewAllUsersFragmen
         switch (position)
         {
             case 0:
+
                 break;
             case 1:
                 scanQR(view);
@@ -132,8 +151,9 @@ public class HomeScreen extends AppCompatActivity implements ViewAllUsersFragmen
             case 2:
                 fragment  = new ViewAllUsersFragment();
                 fragment.setArguments(args);
-                FragmentManager fragmentManager = getFragmentManager();
-                fragmentManager.beginTransaction()
+                FragmentTransaction fragmentManager = getFragmentManager().beginTransaction();
+                fragmentManager.setCustomAnimations(R.transition.activity_slide, R.transition.activity_slideout);
+                fragmentManager
                         .replace(R.id.content_frame, fragment).addToBackStack( null )
                         .commit();
                 break;

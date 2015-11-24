@@ -11,6 +11,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.ImageButton;
 import android.widget.TextView;
 
 import com.mcr.lgss.questionresolved.Entities.Person;
@@ -65,16 +66,17 @@ public class ViewUserFragment extends Fragment {
     TextView txt_name;
     TextView txt_desc;
     TextView txt_missing;
-    Button btnEdit;
+    ImageButton btnEdit;
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
        View v=inflater.inflate(R.layout.fragment_view_user, container, false);
-         btnEdit= (Button) v.findViewById(R.id.btn_edit);
+         btnEdit= (ImageButton) v.findViewById(R.id.btn_edit);
         btnEdit.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
 //                    goToEdit(v);
+
             }
         });
 
