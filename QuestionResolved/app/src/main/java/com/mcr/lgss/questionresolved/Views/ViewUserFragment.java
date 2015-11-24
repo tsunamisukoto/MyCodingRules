@@ -1,5 +1,6 @@
 package com.mcr.lgss.questionresolved.Views;
 
+import android.app.Activity;
 import android.content.Context;
 import android.net.Uri;
 import android.os.Bundle;
@@ -117,10 +118,13 @@ public class ViewUserFragment extends Fragment {
     }
 
     @Override
-    public void onAttach(Context activity) {
+    public void onAttach(Activity activity) {
         super.onAttach(activity);
         try {
+            Log.e("LISGTERNER ATTACHING","SADSADAS");
             mListener = (OnViewUserFragmentInteractionListener) activity;
+            Log.e("LISGTERNER ATTACHED","SADSADAS");
+
         } catch (ClassCastException e) {
             throw new ClassCastException(activity.toString()
                     + " must implement OnAllUsersFragmentInteractionListener");

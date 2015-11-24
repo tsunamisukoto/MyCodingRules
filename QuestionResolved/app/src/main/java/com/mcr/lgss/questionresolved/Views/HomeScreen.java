@@ -14,14 +14,10 @@ import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
-import android.transition.Slide;
-import android.transition.TransitionInflater;
-import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
-import android.widget.Toast;
 
 import com.mcr.lgss.questionresolved.Entities.Person;
 import com.mcr.lgss.questionresolved.R;
@@ -29,7 +25,7 @@ import com.mcr.lgss.questionresolved.Services.DatabaseHelper;
 
 import java.util.ArrayList;
 
-public class HomeScreen extends AppCompatActivity implements ViewAllUsersFragment.OnAllUsersFragmentInteractionListener  ,ViewUserFragment.OnViewUserFragmentInteractionListener{
+public class HomeScreen extends AppCompatActivity implements ViewAllUsersFragment.OnAllUsersFragmentInteractionListener  ,ViewUserFragment.OnViewUserFragmentInteractionListener,EditUserFragment.OnEditUserFragmentInteractionListener{
     DatabaseHelper dbHelper;
     private String[] mPlanetTitles=new String[]{"Register New User", "Scan For User", "View All Users"};
     private ListView mDrawerList;
@@ -42,7 +38,6 @@ public class HomeScreen extends AppCompatActivity implements ViewAllUsersFragmen
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_home_screen);
-
 
         dbHelper = new DatabaseHelper(getApplicationContext());
 
@@ -110,7 +105,7 @@ public class HomeScreen extends AppCompatActivity implements ViewAllUsersFragmen
                 args.putInt(ViewUserFragment.ARG_USERID, (id));
                 fragment.setArguments(args);
                 // Insert the fragment by replacing any existing fragment
-                man.setCustomAnimations(R.transition.activity_slide, R.transition.activity_slideout);
+                man.setCustomAnimations(R.transition.activity_slide, R.transition.activity_slideout, R.transition.activity_slidereverse,R.transition.activity_slideoutreverse);
                 man.replace(R.id.content_frame, fragment).addToBackStack( null );
                 man.commit();
                 break;
@@ -121,7 +116,7 @@ public class HomeScreen extends AppCompatActivity implements ViewAllUsersFragmen
                 fragment.setArguments(args);
                 // Insert the fragment by replacing any existing fragment
 
-                man.setCustomAnimations(R.transition.activity_slide, R.transition.activity_slideout);
+                man.setCustomAnimations(R.transition.activity_slide, R.transition.activity_slideout, R.transition.activity_slidereverse,R.transition.activity_slideoutreverse);
                 man.replace(R.id.content_frame, fragment).addToBackStack( null );
                 man.commit();
                 break;
@@ -141,9 +136,14 @@ public class HomeScreen extends AppCompatActivity implements ViewAllUsersFragmen
         fragment.setArguments(args);
         // Insert the fragment by replacing any existing fragment
 
-        man.setCustomAnimations(R.transition.activity_slide, R.transition.activity_slideout);
+        man.setCustomAnimations(R.transition.activity_slide, R.transition.activity_slideout, R.transition.activity_slidereverse,R.transition.activity_slideoutreverse);
         man.replace(R.id.content_frame, fragment).addToBackStack( null );
         man.commit();
+    }
+
+    @Override
+    public void onEditUserFragmentInteraction(Uri uri) {
+
     }
 
     private class DrawerItemClickListener implements ListView.OnItemClickListener {
@@ -158,10 +158,21 @@ public class HomeScreen extends AppCompatActivity implements ViewAllUsersFragmen
         // Create a new fragment and specify the planet to show based on position
     Fragment fragment=null;
         Bundle args = new Bundle();
+        FragmentTransaction fragmentManager = getFragmentManager().beginTransaction();
+
         switch (position)
         {
             case 0:
 
+                FragmentTransaction man = fragmentManager;
+                fragment  = new EditUserFragment();
+                args.putInt(ViewUserFragment.ARG_USERID, (-1));
+                fragment.setArguments(args);
+                // Insert the fragment by replacing any existing fragment
+
+                man.setCustomAnimations(R.transition.activity_slide, R.transition.activity_slideout, R.transition.activity_slidereverse,R.transition.activity_slideoutreverse);
+                man.replace(R.id.content_frame, fragment).addToBackStack( null );
+                man.commit();
                 break;
             case 1:
                 scanQR(view);
@@ -169,8 +180,7 @@ public class HomeScreen extends AppCompatActivity implements ViewAllUsersFragmen
             case 2:
                 fragment  = new ViewAllUsersFragment();
                 fragment.setArguments(args);
-                FragmentTransaction fragmentManager = getFragmentManager().beginTransaction();
-                fragmentManager.setCustomAnimations(R.transition.activity_slide, R.transition.activity_slideout);
+                fragmentManager.setCustomAnimations(R.transition.activity_slide, R.transition.activity_slideout, R.transition.activity_slidereverse,R.transition.activity_slideoutreverse);
                 fragmentManager
                         .replace(R.id.content_frame, fragment).addToBackStack( null )
                         .commit();
@@ -184,6 +194,17 @@ public class HomeScreen extends AppCompatActivity implements ViewAllUsersFragmen
         setTitle(mPlanetTitles[position]);
         mDrawerLayout.closeDrawer(mDrawerList);
 
+    }
+
+    @Override
+    public void onBackPressed() {
+        // (if you called previously to addToBackStack() in your transaction)
+        if (getFragmentManager().getBackStackEntryCount() > 0){
+            getFragmentManager().popBackStack();
+        }
+        // Default action on back pressed
+        else
+            super.onBackPressed();
     }
 
     static final String ACTION_SCAN = "com.google.zxing.client.android.SCAN";
