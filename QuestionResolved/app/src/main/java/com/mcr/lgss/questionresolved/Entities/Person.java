@@ -11,7 +11,7 @@ public class Person {
     public static String colImage="PersonalImage";
     public static String colPositionName="PositionName";
     public static String colQuote="Quote";
-    public static String colPhoneNumber="PhoneNumer";
+    public static String colPhoneNumber="PhoneNumber";
     public static String colEmail="Email";
     public static String colLastSeenCoordinates="LastSeenCoordinates";
 

@@ -14,14 +14,12 @@
             android:text="Name"
             android:id="@+id/lbl_nameedit"
             android:layout_alignParentTop="true"
-            android:layout_alignParentStart="true"
-            android:layout_marginTop="19dp" />
+            android:layout_alignParentStart="true" />
 
         <EditText
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:id="@+id/tb_nameedit"
-            android:layout_marginTop="55dp"
             android:layout_alignParentTop="true"
             android:layout_alignParentStart="true" />
 
@@ -30,7 +28,6 @@
             android:layout_height="wrap_content"
             android:text="Description"
             android:id="@+id/lbl_descedit"
-            android:layout_marginTop="41dp"
             android:layout_below="@+id/tb_nameedit"
             android:layout_alignParentStart="true" />
 
@@ -38,8 +35,63 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:id="@+id/tb_descedit"
-            android:layout_marginTop="24dp"
             android:layout_below="@+id/lbl_descedit"
+            android:layout_alignParentStart="true" />
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Phone Number"
+            android:id="@+id/lbl_phnoedit"
+            android:layout_below="@+id/tb_descedit"
+            android:layout_alignParentStart="true" />
+
+        <EditText
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/tb_phnoedit"
+            android:layout_below="@+id/lbl_phnoedit"
+            android:layout_alignParentStart="true" />
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Email"
+            android:id="@+id/lbl_emaildit"
+            android:layout_below="@+id/tb_phnoedit"
+            android:layout_alignParentStart="true" />
+
+        <EditText
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/tb_emailedit"
+            android:layout_below="@+id/lbl_emaildit"
+            android:layout_alignParentStart="true" />
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Quote"
+            android:id="@+id/lbl_quoteedit"
+            android:layout_below="@+id/tb_emailedit"
+            android:layout_alignParentStart="true" />
+
+        <EditText
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/tb_quoteedit"
+            android:layout_below="@+id/lbl_quoteedit"
+            android:layout_alignParentStart="true" />
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Position"
+            android:id="@+id/lbl_posnoedit"
+            android:layout_below="@+id/tb_quoteedit"
+            android:layout_alignParentStart="true" />
+
+        <EditText
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/tb_posnoedit"
+            android:layout_below="@+id/lbl_posnoedit"
             android:layout_alignParentStart="true" />
 
         <Button
@@ -64,7 +116,7 @@
             android:layout_height="wrap_content"
             android:text="TAKE PHOTO"
             android:id="@+id/btn_photoedit"
-            android:layout_below="@+id/tb_descedit"
+            android:layout_below="@+id/tb_posnoedit"
             android:layout_centerHorizontal="true"
             android:layout_marginTop="63dp" />
     </RelativeLayout>
