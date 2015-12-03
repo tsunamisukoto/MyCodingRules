@@ -12,11 +12,11 @@ import android.widget.TextView;
 import com.mcr.lgss.questionresolved.Entities.Person;
 import com.mcr.lgss.questionresolved.R;
 
-public class MySimpleArrayAdapter extends ArrayAdapter<Object> {
+public class PersonArrayAdapter extends ArrayAdapter<Object> {
     private final Context context;
     private final Object[] values;
 
-    public MySimpleArrayAdapter(Context context, Object[] values) {
+    public PersonArrayAdapter(Context context, Object[] values) {
         super(context, R.layout.listviewitems, values);
         this.context = context;
         this.values = values;

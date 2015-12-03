@@ -10,6 +10,9 @@ import android.os.Bundle;
 import android.provider.MediaStore;
 import android.util.Log;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
@@ -58,9 +61,29 @@ public class EditUserFragment extends Fragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
+        setHasOptionsMenu(true);
     }
+    @Override
+     public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
+        inflater.inflate(R.menu.adduseractionmenu, menu);
+    }
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        int id = item.getItemId();
+        if(id == R.id.action_favorite){
+            //Do whatever you want to do
+            return true;
+        }
+        if(id == R.id.action_cam){
+            Intent cameraIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+            //cameraIntent.putExtra(MediaStore.EXTRA_OUTPUT, outputFileUri);
 
+            startActivityForResult(cameraIntent, TAKE_PHOTO_CODE);
+            return true;
+        }
+
+        return super.onOptionsItemSelected(item);
+    }
     int count = 0;
 
     @Override
@@ -68,18 +91,8 @@ public class EditUserFragment extends Fragment {
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         View v = inflater.inflate(R.layout.fragment_edit_user, container, false);
-        Button btnPhoto = (Button) v.findViewById(R.id.btn_photoedit);
 
-        btnPhoto.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
 
-                Intent cameraIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
-                //cameraIntent.putExtra(MediaStore.EXTRA_OUTPUT, outputFileUri);
-
-                startActivityForResult(cameraIntent, TAKE_PHOTO_CODE);
-            }
-        });
         final EditText edittxt_name = (EditText) v.findViewById(R.id.tb_nameedit);
         final EditText edittxt_desc = (EditText) v.findViewById(R.id.tb_descedit);
         final EditText edittxt_posno = (EditText) v.findViewById(R.id.tb_posnoedit);
@@ -189,7 +202,7 @@ public class EditUserFragment extends Fragment {
         super.onActivityResult(requestCode, resultCode, data);
 
         if (requestCode == TAKE_PHOTO_CODE && resultCode == getActivity().RESULT_OK) {
-            Log.d("CameraDemo", "Pic saved");
+
 
             Bundle extras = data.getExtras();
             Bitmap mImageBitmap = (Bitmap) extras.get("data");

@@ -1,7 +1,6 @@
 package com.mcr.lgss.questionresolved.Views;
 
 import android.app.Activity;
-import android.media.Image;
 import android.os.Bundle;
 import android.app.Fragment;
 import android.view.LayoutInflater;
@@ -9,20 +8,16 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AbsListView;
 import android.widget.AdapterView;
-import android.widget.ArrayAdapter;
 import android.widget.ImageButton;
 import android.widget.ListAdapter;
 import android.widget.TextView;
 
-import com.mcr.lgss.questionresolved.Adapters.MySimpleArrayAdapter;
+import com.mcr.lgss.questionresolved.Adapters.PersonArrayAdapter;
 import com.mcr.lgss.questionresolved.Entities.Person;
 import com.mcr.lgss.questionresolved.R;
 import com.mcr.lgss.questionresolved.Services.DatabaseHelper;
-import com.mcr.lgss.questionresolved.Views.dummy.DummyContent;
 
-import java.lang.reflect.Array;
 import java.util.ArrayList;
-import java.util.List;
 
 /**
  * A fragment representing a list of Items.
@@ -87,7 +82,7 @@ ArrayList<Person> people=new ArrayList<>();
         dbHelper = new DatabaseHelper(getActivity().getApplicationContext());
         dbHelper.GetPeople(people);
         // TODO: Change Adapter to display your content
-        mAdapter = new MySimpleArrayAdapter(getActivity(),people.toArray() );
+        mAdapter = new PersonArrayAdapter(getActivity(),people.toArray() );
     }
     @Override
     public void onAttach(Activity activity) {
