@@ -14,6 +14,7 @@ import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
@@ -101,8 +102,8 @@ public class HomeScreen extends AppCompatActivity implements ViewAllUsersFragmen
 
             case Add:
 
-                fragment  = new ViewUserFragment();
-                args.putInt(ViewUserFragment.ARG_USERID, (id));
+                fragment  = new EditUserFragment();
+                args.putInt(EditUserFragment.ARG_USERID, (id));
                 fragment.setArguments(args);
                 // Insert the fragment by replacing any existing fragment
                 man.setCustomAnimations(R.transition.activity_slide, R.transition.activity_slideout, R.transition.activity_slidereverse,R.transition.activity_slideoutreverse);
@@ -132,7 +133,7 @@ public class HomeScreen extends AppCompatActivity implements ViewAllUsersFragmen
 
         FragmentTransaction man = fragmentManager.beginTransaction();
         fragment  = new EditUserFragment();
-        args.putInt(ViewUserFragment.ARG_USERID, (id));
+        args.putInt(EditUserFragment.ARG_USERID, (id));
         fragment.setArguments(args);
         // Insert the fragment by replacing any existing fragment
 

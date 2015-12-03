@@ -49,8 +49,15 @@
             android:id="@+id/btn_save"
             android:layout_alignParentBottom="true"
             android:layout_centerHorizontal="true"
-            android:layout_marginBottom="59dp"
+            android:layout_marginBottom="20dp"
             android:layout_gravity="center_horizontal" />
+
+        <ImageView
+            android:layout_width="100dp"
+            android:layout_height="100dp"
+            android:id="@+id/imgUserImage"
+            android:layout_below="@+id/btn_photoedit"
+            android:layout_alignLeft="@+id/btn_photoedit"/>
 
         <Button
             android:layout_width="wrap_content"

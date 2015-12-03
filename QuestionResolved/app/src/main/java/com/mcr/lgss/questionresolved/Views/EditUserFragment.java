@@ -3,17 +3,25 @@ package com.mcr.lgss.questionresolved.Views;
 import android.app.Fragment;
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Bitmap;
 import android.net.Uri;
 import android.os.Bundle;
+import android.os.Environment;
+import android.provider.MediaStore;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageView;
 
 import com.mcr.lgss.questionresolved.Entities.Person;
 import com.mcr.lgss.questionresolved.R;
 import com.mcr.lgss.questionresolved.Services.DatabaseHelper;
+
+import java.io.File;
+import java.io.IOException;
 
 /**
  * Created by Daniel on 19/11/2015.
@@ -25,7 +33,7 @@ public class EditUserFragment extends Fragment {
 
     // TODO: Rename and change types of parameters
     private int userID;
-
+    int TAKE_PHOTO_CODE=1232;
     private OnEditUserFragmentInteractionListener mListener;
 
     /**
@@ -54,17 +62,30 @@ public class EditUserFragment extends Fragment {
 
 
     }
-
+        int count=0;
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         View v = inflater.inflate(R.layout.fragment_edit_user, container, false);
+        Button btnPhoto = (Button)v.findViewById(R.id.btn_photoedit);
+        final String dir = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_PICTURES) + "/picFolder/";
+        File newdir = new File(dir);
+        newdir.mkdirs();
+        btnPhoto.setOnClickListener(new View.OnClickListener() {
+                                        @Override
+                                        public void onClick(View v) {
 
-        EditText edittxt_name = (EditText)  v.findViewById(R.id.tb_nameedit);
-        EditText edittxt_desc = (EditText) v.findViewById(R.id.tb_descedit);
+                                            Intent cameraIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+                                            //cameraIntent.putExtra(MediaStore.EXTRA_OUTPUT, outputFileUri);
 
-        int argID = getArguments().getInt(ARG_USERID);
+                                            startActivityForResult(cameraIntent, TAKE_PHOTO_CODE);
+                                        }
+                                    });
+       final EditText edittxt_name = (EditText)  v.findViewById(R.id.tb_nameedit);
+     final    EditText edittxt_desc = (EditText) v.findViewById(R.id.tb_descedit);
+
+        final int argID = getArguments().getInt(ARG_USERID);
 
         if (argID != -1) {
             DatabaseHelper dbHelper = new DatabaseHelper(getActivity().getApplicationContext());
@@ -75,12 +96,10 @@ public class EditUserFragment extends Fragment {
 
         Button btnEdit = (Button) v.findViewById(R.id.btn_save);
         btnEdit.setOnClickListener(new View.OnClickListener() {
+
+
+            @Override
             public void onClick(View v) {
-                int argID = getArguments().getInt(ARG_USERID);
-
-                EditText edittxt_name = (EditText)  v.findViewById(R.id.tb_nameedit);
-                EditText edittxt_desc = (EditText) v.findViewById(R.id.tb_descedit);
-
                 DatabaseHelper dbHelper = new DatabaseHelper(getActivity().getApplicationContext());
                 Person tempPerson = new Person(argID, edittxt_name.getText().toString(), edittxt_desc.getText().toString(), null);
 
@@ -92,7 +111,14 @@ public class EditUserFragment extends Fragment {
 
                 onSaveEditPressed(getArguments().getInt(ARG_USERID));
             }
-        });
+            }
+
+
+        );
+//       Intent callingIntent = getIntent();
+//
+//        edittxt_name.setText(callingIntent.getStringExtra("name"));
+//        edittxt_desc.setText(callingIntent.getStringExtra("description"));
 
         return v;
     }
@@ -104,6 +130,12 @@ public class EditUserFragment extends Fragment {
             mListener.onEditUserFragmentInteraction(id);
         }
     }
+//    // TODO: Rename method, update argument and hook method into UI event
+//    public void onButtonPressed(Uri uri) {
+//        if (mListener != null) {
+//            mListener.onFragmentInteraction(uri);
+//        }
+//    }
 
     @Override
     public void onAttach(Context activity) {
@@ -115,7 +147,22 @@ public class EditUserFragment extends Fragment {
                     + " must implement OnAllUsersFragmentInteractionListener");
         }
     }
+    Bitmap workingImage;
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
 
+        if (requestCode == TAKE_PHOTO_CODE && resultCode == getActivity().RESULT_OK) {
+            Log.d("CameraDemo", "Pic saved");
+
+            Bundle extras = data.getExtras();
+            Bitmap mImageBitmap = (Bitmap) extras.get("data");
+            workingImage=mImageBitmap;
+            ImageView a = (ImageView)getActivity().findViewById(R.id.imgUserImage);
+            a.setImageBitmap(mImageBitmap);
+
+        }
+    }
     @Override
     public void onDetach() {
         super.onDetach();
