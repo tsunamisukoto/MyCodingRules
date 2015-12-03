@@ -14,6 +14,7 @@ import android.widget.ImageButton;
 import android.widget.ListAdapter;
 import android.widget.TextView;
 
+import com.mcr.lgss.questionresolved.Adapters.MySimpleArrayAdapter;
 import com.mcr.lgss.questionresolved.Entities.Person;
 import com.mcr.lgss.questionresolved.R;
 import com.mcr.lgss.questionresolved.Services.DatabaseHelper;
@@ -76,7 +77,7 @@ ArrayList<Person> people=new ArrayList<>();
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
+        people=new ArrayList<>();
         if (getArguments() != null) {
             mParam1 = getArguments().getString(ARG_PARAM1);
             mParam2 = getArguments().getString(ARG_PARAM2);
@@ -86,8 +87,7 @@ ArrayList<Person> people=new ArrayList<>();
         dbHelper = new DatabaseHelper(getActivity().getApplicationContext());
         dbHelper.GetPeople(people);
         // TODO: Change Adapter to display your content
-        mAdapter = new ArrayAdapter<Person>(getActivity(),
-                android.R.layout.simple_list_item_1, android.R.id.text1,people );
+        mAdapter = new MySimpleArrayAdapter(getActivity(),people.toArray() );
     }
     @Override
     public void onAttach(Activity activity) {
@@ -108,7 +108,7 @@ ArrayList<Person> people=new ArrayList<>();
         mListView = (AbsListView) view.findViewById(android.R.id.list);
         ((AdapterView<ListAdapter>) mListView).setAdapter(mAdapter);
         ImageButton btnAdd =(ImageButton) view.findViewById(R.id.btn_add);
-        btnAdd.setOnClickListener(this  );
+        btnAdd.setOnClickListener(this);
         // Set OnItemClickListener so we can be notified on item clicks
         mListView.setOnItemClickListener(this);
 

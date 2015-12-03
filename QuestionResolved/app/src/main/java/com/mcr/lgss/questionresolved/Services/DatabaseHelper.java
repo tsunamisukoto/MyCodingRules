@@ -69,8 +69,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         Cursor cur = db.rawQuery("SELECT "+ Person.colID+", "+ Person.colName+", " +Person.colDescription+", "+Person.colImage+" FROM "+ Person.TableName+" WHERE "+ Person.colID+ "=?",new String[]{id+""});
         if(cur.moveToFirst())
         {
-            Person p  = new Person(cur.getInt(cur.getColumnIndex(Person.colID)),cur.getString(cur.getColumnIndex(Person.colName)),cur.getString(cur.getColumnIndex(Person.colDescription)),"test".getBytes());
-
+            Person p = new Person(cur.getInt(cur.getColumnIndex(Person.colID)),(cur.getString(cur.getColumnIndex(Person.colName))),(cur.getString(cur.getColumnIndex(Person.colDescription))), cur.getBlob(cur.getColumnIndex(Person.colImage)));
             return p;
         }
         return null;
@@ -79,12 +78,12 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     {
         list.clear();
         SQLiteDatabase db=this.getReadableDatabase();
-        Cursor cur=db.rawQuery("SELECT "+Person.colID+" , "+Person.colName+", "+Person.colDescription+" from "+Person.TableName+" ORDER BY " + Person.colName,new String [] {});
+        Cursor cur=db.rawQuery("SELECT "+Person.colID+" , "+Person.colName+", "+Person.colDescription+", " + Person.colImage + " from "+Person.TableName+" ORDER BY " + Person.colName,new String [] {});
 
         for (cur.moveToFirst(); !cur.isAfterLast(); cur.moveToNext()) {
 
             try {
-                Person p = new Person(cur.getInt(cur.getColumnIndex(Person.colID)),(cur.getString(cur.getColumnIndex(Person.colName))),(cur.getString(cur.getColumnIndex(Person.colDescription))), null);
+                Person p = new Person(cur.getInt(cur.getColumnIndex(Person.colID)),(cur.getString(cur.getColumnIndex(Person.colName))),(cur.getString(cur.getColumnIndex(Person.colDescription))), cur.getBlob(cur.getColumnIndex(Person.colImage)));
 
                 list.add(p);
             } catch (ParseException e) {
@@ -102,7 +101,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         ContentValues cv = new ContentValues();
         cv.put(p.colName, p.Name);
         cv.put(p.colDescription, p.Description);
-
+        cv.put(p.colImage, p.Image);
         return db.update(Person.TableName, cv, Person.colID+"=?",  new String[]{String.valueOf(p.ID)});
     }
 }

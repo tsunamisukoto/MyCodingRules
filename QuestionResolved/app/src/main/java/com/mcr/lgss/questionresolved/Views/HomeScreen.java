@@ -10,6 +10,7 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.net.Uri;
 import android.support.v4.widget.DrawerLayout;
+import android.support.v7.app.ActionBarActivity;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -41,7 +42,7 @@ public class HomeScreen extends AppCompatActivity implements ViewAllUsersFragmen
         setContentView(R.layout.activity_home_screen);
 
         dbHelper = new DatabaseHelper(getApplicationContext());
-
+//        dbHelper.onCreate(  dbHelper.getWritableDatabase());
         mDrawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
         mDrawerList = (ListView) findViewById(R.id.left_drawer);
 
@@ -145,7 +146,7 @@ public class HomeScreen extends AppCompatActivity implements ViewAllUsersFragmen
     @Override
     public void onEditUserFragmentInteraction(int id) {
         Fragment fragment=null;
-
+        Log.e("DSDSFSDFSDFSDFSDFDSNIN","DFSIDNFIUSDIUFSDNIFSD");
         FragmentManager fragmentManager = getFragmentManager();
         Bundle args = new Bundle();
 
@@ -155,8 +156,9 @@ public class HomeScreen extends AppCompatActivity implements ViewAllUsersFragmen
         fragment.setArguments(args);
         // Insert the fragment by replacing any existing fragment
 
-        man.setCustomAnimations(R.transition.activity_slide, R.transition.activity_slideout, R.transition.activity_slidereverse,R.transition.activity_slideoutreverse);
-        man.replace(R.id.content_frame, fragment).addToBackStack( null );
+     //   man.setCustomAnimations(R.transition.activity_slide, R.transition.activity_slideout, R.transition.activity_slidereverse,R.transition.activity_slideoutreverse);
+        fragmentManager.popBackStack();
+     //   man.replace(R.id.content_frame, fragment).addToBackStack( null );
         man.commit();
     }
 
