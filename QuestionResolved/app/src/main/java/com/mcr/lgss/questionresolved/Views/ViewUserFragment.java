@@ -110,13 +110,13 @@ public class ViewUserFragment extends Fragment {
                 Bitmap workingImage;
 
                 if(person != null) {
-                    txt_name.append(" " +person.Name);
-                    txt_desc.append(" " + person.Description);
-                    txt_position.append(" " +person.PosName);
-                    txt_quote.append(" " +person.Quote);
-                    txt_phone.append(" " +person.PhoneNumber);
-                    txt_email.append(" " +person.Email);
-                    txt_coord.append(" " +person.LastSeenCoordinates);
+                    txt_name.setText("" + person.Name);
+                    txt_desc.setText("" + person.Description);
+                    txt_position.setText("" + person.PosName);
+                    txt_quote.setText("" + person.Quote);
+                    txt_phone.setText("" + person.PhoneNumber);
+                    txt_email.setText("" + person.Email);
+                    txt_coord.setText("" +person.LastSeenCoordinates);
 
                     if(person.Image != null) {
                         workingImage= BitmapFactory.decodeByteArray(person.Image, 0, person.Image.length);
