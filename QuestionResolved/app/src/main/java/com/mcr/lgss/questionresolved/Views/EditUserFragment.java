@@ -11,7 +11,9 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
 
+import com.mcr.lgss.questionresolved.Entities.Person;
 import com.mcr.lgss.questionresolved.R;
+import com.mcr.lgss.questionresolved.Services.DatabaseHelper;
 
 /**
  * Created by Daniel on 19/11/2015.
@@ -59,29 +61,47 @@ public class EditUserFragment extends Fragment {
         // Inflate the layout for this fragment
         View v = inflater.inflate(R.layout.fragment_edit_user, container, false);
 
-        Button btnEdit = (Button) v.findViewById(R.id.btn_save);
-        btnEdit.setOnClickListener(new View.OnClickListener() {
-            public void onClick(View v) {
-                saveEdit(v);
-            }
-        });
-
         EditText edittxt_name = (EditText)  v.findViewById(R.id.tb_nameedit);
         EditText edittxt_desc = (EditText) v.findViewById(R.id.tb_descedit);
 
-        Intent callingIntent = getIntent();
+        int argID = getArguments().getInt(ARG_USERID);
 
-        edittxt_name.setText(callingIntent.getStringExtra("name"));
-        edittxt_desc.setText(callingIntent.getStringExtra("description"));
+        if (argID != -1) {
+            DatabaseHelper dbHelper = new DatabaseHelper(getActivity().getApplicationContext());
+            Person person = dbHelper.GetPerson(argID);
+            edittxt_name.setText(person.Name);
+            edittxt_desc.setText(person.Description);
+        }
+
+        Button btnEdit = (Button) v.findViewById(R.id.btn_save);
+        btnEdit.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View v) {
+                int argID = getArguments().getInt(ARG_USERID);
+
+                EditText edittxt_name = (EditText)  v.findViewById(R.id.tb_nameedit);
+                EditText edittxt_desc = (EditText) v.findViewById(R.id.tb_descedit);
+
+                DatabaseHelper dbHelper = new DatabaseHelper(getActivity().getApplicationContext());
+                Person tempPerson = new Person(argID, edittxt_name.getText().toString(), edittxt_desc.getText().toString(), null);
+
+                if (argID == -1) {
+                    dbHelper.InsertPerson(tempPerson, null);
+                } else {
+                    dbHelper.UpdatePerson(tempPerson, null);
+                }
+
+                onSaveEditPressed(getArguments().getInt(ARG_USERID));
+            }
+        });
 
         return v;
     }
 
 
     // TODO: Rename method, update argument and hook method into UI event
-    public void onButtonPressed(Uri uri) {
+    public void onSaveEditPressed(int id) {
         if (mListener != null) {
-            mListener.onFragmentInteraction(uri);
+            mListener.onEditUserFragmentInteraction(id);
         }
     }
 
@@ -114,6 +134,6 @@ public class EditUserFragment extends Fragment {
      */
     public interface OnEditUserFragmentInteractionListener {
         // TODO: Update argument type and name
-        public void onEditUserFragmentInteraction(Uri uri);
+        public void onEditUserFragmentInteraction(int id);
     }
 }
