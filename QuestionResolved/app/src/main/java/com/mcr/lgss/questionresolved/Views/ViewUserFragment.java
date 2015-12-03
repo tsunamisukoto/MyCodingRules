@@ -102,7 +102,7 @@ public class ViewUserFragment extends Fragment {
                     onButtonPressed(id);
                 }
             });
-                txt_id.append(" "+id);
+                txt_id.setText("" +id);
 
                 DatabaseHelper dbHelper = new DatabaseHelper(getActivity().getApplicationContext());
                 Person person = dbHelper.GetPerson(id);
