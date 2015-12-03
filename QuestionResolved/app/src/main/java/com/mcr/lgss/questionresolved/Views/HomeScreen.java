@@ -144,7 +144,20 @@ public class HomeScreen extends AppCompatActivity implements ViewAllUsersFragmen
 
     @Override
     public void onEditUserFragmentInteraction(int id) {
+        Fragment fragment=null;
 
+        FragmentManager fragmentManager = getFragmentManager();
+        Bundle args = new Bundle();
+
+        FragmentTransaction man = fragmentManager.beginTransaction();
+        fragment  = new ViewUserFragment();
+        args.putInt(EditUserFragment.ARG_USERID, (id));
+        fragment.setArguments(args);
+        // Insert the fragment by replacing any existing fragment
+
+        man.setCustomAnimations(R.transition.activity_slide, R.transition.activity_slideout, R.transition.activity_slidereverse,R.transition.activity_slideoutreverse);
+        man.replace(R.id.content_frame, fragment).addToBackStack( null );
+        man.commit();
     }
 
     private class DrawerItemClickListener implements ListView.OnItemClickListener {
