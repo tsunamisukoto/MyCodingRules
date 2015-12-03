@@ -74,6 +74,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         return db.insert(Person.TableName,Person.colID,cv);
 
     }
+
     public Person GetPerson(int id)
     {
         SQLiteDatabase db=this.getReadableDatabase();

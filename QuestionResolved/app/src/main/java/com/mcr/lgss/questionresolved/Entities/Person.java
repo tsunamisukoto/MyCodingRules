@@ -17,9 +17,9 @@ public class Person {
 
     public static String CreateTable()
     {
-        return  "CREATE TABLE " + TableName+ " ("+colID+" INTEGER PRIMARY KEY AUTOINCREMENT,"+colName+ " STRING NOT NULL,"+ colDescription+" STRING NOT NULL,"
-                + colPositionName+" STRING NOT NULL,"+ colQuote+" STRING NOT NULL,"+ colPhoneNumber+" STRING NOT NULL,"
-                + colEmail+" STRING NOT NULL,"+ colLastSeenCoordinates+" STRING NOT NULL,"+colImage+ " BLOB)";
+        return  "CREATE TABLE " + TableName+ " ("+colID+" INTEGER PRIMARY KEY AUTOINCREMENT,"+colName+ " TEXT NOT NULL,"+ colDescription+" TEXT NOT NULL,"
+                + colPositionName+" TEXT NOT NULL,"+ colQuote+" TEXT NOT NULL,"+ colPhoneNumber+" TEXT NOT NULL,"
+                + colEmail+" TEXT NOT NULL,"+ colLastSeenCoordinates+" TEXT NOT NULL,"+colImage+ " BLOB)";
     }
 
 

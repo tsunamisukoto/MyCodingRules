@@ -29,7 +29,7 @@ import java.util.ArrayList;
 
 public class HomeScreen extends AppCompatActivity implements ViewAllUsersFragment.OnAllUsersFragmentInteractionListener  ,ViewUserFragment.OnViewUserFragmentInteractionListener,EditUserFragment.OnEditUserFragmentInteractionListener{
     DatabaseHelper dbHelper;
-    private String[] mPlanetTitles=new String[]{"Register New User", "Scan For User", "View All Users"};
+    private String[] mPlanetTitles=new String[]{"Register New User", "Scan For User", "View All Users", "Send Email to All Users"};
     private ListView mDrawerList;
     private CharSequence mDrawerTitle="Drawer Title";
     private CharSequence mTitle="Main Title";
@@ -42,7 +42,7 @@ public class HomeScreen extends AppCompatActivity implements ViewAllUsersFragmen
         setContentView(R.layout.activity_home_screen);
 
         dbHelper = new DatabaseHelper(getApplicationContext());
-      dbHelper.onCreate(  dbHelper.getWritableDatabase());
+    //  dbHelper.onCreate(  dbHelper.getWritableDatabase());
         mDrawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
         mDrawerList = (ListView) findViewById(R.id.left_drawer);
 
@@ -200,6 +200,21 @@ public class HomeScreen extends AppCompatActivity implements ViewAllUsersFragmen
                 fragmentManager
                         .replace(R.id.content_frame, fragment).addToBackStack( null )
                         .commit();
+                break;
+            case 3:
+                Intent sendIntent = new Intent(Intent.ACTION_VIEW);
+                sendIntent.setType("plain/text");
+                ArrayList<Person> people= dbHelper.GetPeople(new ArrayList<Person>());
+                 String[] recipients= new String[people.size()];
+                for(int i =0; i<people.size(); i++)
+                {
+                    recipients[i]=people.get(i).Email;
+                }
+                sendIntent.setClassName("com.google.android.gm", "com.google.android.gm.ComposeActivityGmail");
+                sendIntent.putExtra(Intent.EXTRA_EMAIL, recipients);
+                sendIntent.putExtra(Intent.EXTRA_SUBJECT, "Our App Can Send Emails! Can Yours? WADDUP!!!!!");
+                sendIntent.putExtra(Intent.EXTRA_TEXT, "Thanks for watching our presentation. We will be offering beta testing in the near future.");
+                startActivity(sendIntent);
                 break;
         }
         // Insert the fragment by replacing any existing fragment
