@@ -142,7 +142,7 @@ public class HomeScreen extends AppCompatActivity implements ViewAllUsersFragmen
     }
 
     @Override
-    public void onEditUserFragmentInteraction(Uri uri) {
+    public void onEditUserFragmentInteraction(int id) {
 
     }
 
