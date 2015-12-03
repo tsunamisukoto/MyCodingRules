@@ -2,6 +2,7 @@ package com.mcr.lgss.questionresolved.Views;
 
 import android.app.Activity;
 import android.content.Context;
+import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.net.Uri;
@@ -118,8 +119,31 @@ public class ViewUserFragment extends Fragment {
                     txt_email.setText("" + person.Email);
                     txt_coord.setText("" +person.LastSeenCoordinates);
 
-                    if(person.Image != null) {
-                        workingImage= BitmapFactory.decodeByteArray(person.Image, 0, person.Image.length);
+                    txt_phone.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                            Intent callIntent = new Intent(Intent.ACTION_CALL);
+                            callIntent.setData(Uri.parse(txt_phone.getText()+""));
+                            startActivity(callIntent);
+                        }
+                    });
+
+                    txt_email.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                            Intent sendIntent = new Intent(Intent.ACTION_VIEW);
+                            sendIntent.setType("plain/text");
+                            sendIntent.setData(Uri.parse("test@gmail.com"));
+                            sendIntent.setClassName("com.google.android.gm", "com.google.android.gm.ComposeActivityGmail");
+                            sendIntent.putExtra(Intent.EXTRA_EMAIL, new String[] { txt_email.getText()+"" });
+                            sendIntent.putExtra(Intent.EXTRA_SUBJECT, "test");
+                            sendIntent.putExtra(Intent.EXTRA_TEXT, "hello. this is a message sent from my demo app :-)");
+                            startActivity(sendIntent);
+                        }
+                    });
+
+                    if (person.Image != null) {
+                        workingImage = BitmapFactory.decodeByteArray(person.Image, 0, person.Image.length);
 
                         if(workingImage!=null&& userimg!=null)
                             userimg.setImageBitmap(workingImage);
