@@ -30,48 +30,171 @@
             android:orientation="vertical"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_gravity="left|top">
+            android:layout_gravity="left|top"
+            android:weightSum="1">
 
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="ID:"
-                android:id="@+id/lbl_id"
-                android:layout_marginLeft="0dp"
-                android:layout_marginStart="22dp"
-                android:layout_marginTop="40dp"
-                android:layout_alignParentTop="true"
-                android:layout_alignParentLeft="true"
-                android:layout_alignParentStart="true" />
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
 
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Name:"
-                android:id="@+id/lbl_name"
-                android:layout_marginTop="40dp"
-                android:layout_below="@+id/lbl_id"
-                android:layout_alignLeft="@+id/lbl_id"
-                android:layout_alignStart="@+id/lbl_id" />
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="ID:"
+                    android:id="@+id/lbl_id"
+                    android:layout_marginLeft="0dp"
+                    android:layout_marginStart="22dp"
+                    android:layout_marginTop="40dp"
+                    android:layout_alignParentTop="true"
+                    android:layout_alignParentLeft="true"
+                    android:layout_alignParentStart="true" />
 
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Description:"
-                android:id="@+id/lbl_description"
-                android:layout_below="@+id/lbl_name"
-                android:layout_alignLeft="@+id/lbl_name"
-                android:layout_alignStart="@+id/lbl_name"
-                android:layout_marginTop="40dp" />
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/lbl_id_txt"
+                    android:layout_marginLeft="0dp"
+                    android:text="id"
+                    android:layout_above="@+id/lbl_name"
+                    android:layout_alignStart="@+id/lbl_name_txt" />
 
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Person not found"
-                android:id="@+id/lbl_missing"
-                android:layout_centerVertical="true"
-                android:layout_alignStart="@+id/lbl_description"
-                android:visibility="invisible" />
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Name:"
+                    android:id="@+id/lbl_name"
+                    android:layout_marginTop="21dp"
+                    android:layout_below="@+id/lbl_id"
+                    android:layout_alignStart="@+id/lbl_id" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="name"
+                    android:id="@+id/lbl_name_txt"
+                    android:layout_above="@+id/lbl_description"
+                    android:layout_toEndOf="@+id/lbl_missing" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Description:"
+                    android:id="@+id/lbl_description"
+                    android:layout_marginTop="21dp"
+                    android:layout_below="@+id/lbl_name"
+                    android:layout_alignStart="@+id/lbl_name" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="description"
+                    android:id="@+id/lbl_description_txt"
+                    android:layout_alignBottom="@+id/lbl_description"
+                    android:layout_alignStart="@+id/lbl_name_txt" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Person not found"
+                    android:id="@+id/lbl_missing"
+                    android:layout_centerVertical="true"
+                    android:layout_alignStart="@+id/lbl_description"
+                    android:visibility="invisible" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Position:"
+                    android:id="@+id/lbl_position"
+                    android:layout_marginTop="25dp"
+                    android:layout_below="@+id/lbl_description"
+                    android:layout_alignStart="@+id/lbl_description" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="position"
+                    android:id="@+id/lbl_position_txt"
+                    android:layout_alignTop="@+id/lbl_position"
+                    android:layout_alignStart="@+id/lbl_description_txt" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Quote:"
+                    android:id="@+id/lbl_quote"
+                    android:layout_below="@+id/lbl_position"
+                    android:layout_alignEnd="@+id/lbl_name"
+                    android:layout_marginTop="21dp" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="quote"
+                    android:id="@+id/lbl_quote_txt"
+                    android:layout_alignTop="@+id/lbl_quote"
+                    android:layout_alignStart="@+id/lbl_position_txt" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Phone:"
+                    android:id="@+id/lbl_phone"
+                    android:layout_alignTop="@+id/lbl_missing"
+                    android:layout_alignStart="@+id/lbl_quote" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="phone"
+                    android:id="@+id/lbl_phone_txt"
+                    android:layout_alignBottom="@+id/lbl_missing"
+                    android:layout_toEndOf="@+id/lbl_missing" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Email:"
+                    android:id="@+id/lbl_email"
+                    android:layout_below="@+id/lbl_missing"
+                    android:layout_alignStart="@+id/lbl_missing"
+                    android:layout_marginTop="19dp" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="email"
+                    android:id="@+id/lbl_email_txt"
+                    android:layout_alignBottom="@+id/lbl_email"
+                    android:layout_toEndOf="@+id/lbl_missing" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Last Seen At:"
+                    android:id="@+id/lbl_coord"
+                    android:layout_marginTop="19dp"
+                    android:layout_below="@+id/lbl_email"
+                    android:layout_alignStart="@+id/lbl_email" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="coord"
+                    android:id="@+id/lbl_coord_txt"
+                    android:layout_alignBottom="@+id/lbl_coord"
+                    android:layout_alignStart="@+id/lbl_email_txt" />
+
+                <ImageView
+                    android:layout_width="337dp"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/img_userDetails"
+                    android:layout_weight="0.41"
+                    android:layout_below="@+id/lbl_coord"
+                    android:layout_centerHorizontal="true"
+                    android:layout_marginTop="20dp" />
+
+            </RelativeLayout>
 
         </LinearLayout>
     </FrameLayout>
