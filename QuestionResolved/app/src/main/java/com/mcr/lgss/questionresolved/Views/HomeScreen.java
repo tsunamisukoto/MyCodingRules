@@ -42,7 +42,7 @@ public class HomeScreen extends AppCompatActivity implements ViewAllUsersFragmen
         setContentView(R.layout.activity_home_screen);
 
         dbHelper = new DatabaseHelper(getApplicationContext());
-//        dbHelper.onCreate(  dbHelper.getWritableDatabase());
+      dbHelper.onCreate(  dbHelper.getWritableDatabase());
         mDrawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
         mDrawerList = (ListView) findViewById(R.id.left_drawer);
 
