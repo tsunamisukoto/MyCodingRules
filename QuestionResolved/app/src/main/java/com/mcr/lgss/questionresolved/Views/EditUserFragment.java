@@ -32,7 +32,7 @@ public class EditUserFragment extends Fragment {
 
     // TODO: Rename and change types of parameters
     private int userID;
-    int TAKE_PHOTO_CODE=1232;
+    int TAKE_PHOTO_CODE = 1232;
     private OnEditUserFragmentInteractionListener mListener;
 
     /**
@@ -60,27 +60,33 @@ public class EditUserFragment extends Fragment {
         super.onCreate(savedInstanceState);
 
     }
-        int count=0;
+
+    int count = 0;
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         View v = inflater.inflate(R.layout.fragment_edit_user, container, false);
-        Button btnPhoto = (Button)v.findViewById(R.id.btn_photoedit);
+        Button btnPhoto = (Button) v.findViewById(R.id.btn_photoedit);
 
         btnPhoto.setOnClickListener(new View.OnClickListener() {
-                                        @Override
-                                        public void onClick(View v) {
+            @Override
+            public void onClick(View v) {
 
-                                            Intent cameraIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
-                                            //cameraIntent.putExtra(MediaStore.EXTRA_OUTPUT, outputFileUri);
+                Intent cameraIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+                //cameraIntent.putExtra(MediaStore.EXTRA_OUTPUT, outputFileUri);
 
-                                            startActivityForResult(cameraIntent, TAKE_PHOTO_CODE);
-                                        }
-                                    });
-       final EditText edittxt_name = (EditText)  v.findViewById(R.id.tb_nameedit);
-     final    EditText edittxt_desc = (EditText) v.findViewById(R.id.tb_descedit);
-final  ImageView a = (ImageView)v.findViewById(R.id.imgUserImage);
+                startActivityForResult(cameraIntent, TAKE_PHOTO_CODE);
+            }
+        });
+        final EditText edittxt_name = (EditText) v.findViewById(R.id.tb_nameedit);
+        final EditText edittxt_desc = (EditText) v.findViewById(R.id.tb_descedit);
+        final EditText edittxt_posno = (EditText) v.findViewById(R.id.tb_posnoedit);
+        final EditText edittxt_phsno = (EditText) v.findViewById(R.id.tb_phnoedit);
+        final EditText edittxt_quote = (EditText) v.findViewById(R.id.tb_quoteedit);
+        final EditText edittxt_email = (EditText) v.findViewById(R.id.tb_emailedit);
+        final ImageView a = (ImageView) v.findViewById(R.id.imgUserImage);
         final int argID = getArguments().getInt(ARG_USERID);
 
         if (argID != -1) {
@@ -88,14 +94,16 @@ final  ImageView a = (ImageView)v.findViewById(R.id.imgUserImage);
             Person person = dbHelper.GetPerson(argID);
             edittxt_name.setText(person.Name);
             edittxt_desc.setText(person.Description);
+            edittxt_posno.setText(person.PosName);
+            edittxt_phsno.setText(person.PhoneNumber);
+            edittxt_quote.setText(person.Quote);
+            edittxt_email.setText(person.Email);
 
+            if (person.Image != null) {
+                workingImage = BitmapFactory.decodeByteArray(person.Image, 0, person.Image.length);
 
-            if(person.Image!=null)
-            {
-                workingImage=BitmapFactory.decodeByteArray(person.Image, 0, person.Image.length);
-
-                if(workingImage!=null&& a!=null)
-                a.setImageBitmap(workingImage);
+                if (workingImage != null && a != null)
+                    a.setImageBitmap(workingImage);
 
             }
         }
@@ -104,27 +112,29 @@ final  ImageView a = (ImageView)v.findViewById(R.id.imgUserImage);
         btnEdit.setOnClickListener(new View.OnClickListener() {
 
 
-            @Override
-            public void onClick(View v) {
-                DatabaseHelper dbHelper = new DatabaseHelper(getActivity().getApplicationContext());
+                                       @Override
+                                       public void onClick(View v) {
+                                           DatabaseHelper dbHelper = new DatabaseHelper(getActivity().getApplicationContext());
 
-                ByteArrayOutputStream stream = new ByteArrayOutputStream();
-                if(workingImage!=null   )
-                workingImage.compress(Bitmap.CompressFormat.PNG, 100, stream);
-                byte[] byteArray = stream.toByteArray();
-                Person tempPerson = new Person(argID, edittxt_name.getText().toString(), edittxt_desc.getText().toString(), byteArray, , , , , );
-                Log.e("SADDSADSADAS","SADSAFFSA2");
+                                           ByteArrayOutputStream stream = new ByteArrayOutputStream();
+                                           if (workingImage != null)
+                                               workingImage.compress(Bitmap.CompressFormat.PNG, 100, stream);
+                                           byte[] byteArray = stream.toByteArray();
+                                           Person tempPerson = new Person(argID, edittxt_name.getText().toString(), edittxt_desc.getText().toString(), byteArray, edittxt_posno.getText().toString(),
+                                                   edittxt_quote.getText().toString(), edittxt_phsno.getText().toString(), edittxt_email.getText().toString(), null);
+                                           Log.e("SADDSADSADAS", "SADSAFFSA2");
 
-                if (argID == -1) {
-                    dbHelper.InsertPerson(tempPerson, null);
-                } else {
-                    dbHelper.UpdatePerson(tempPerson, null);                Log.e("SADDSADSADAS", "SADSAFFSA");
+                                           if (argID == -1) {
+                                               dbHelper.InsertPerson(tempPerson, null);
+                                           } else {
+                                               dbHelper.UpdatePerson(tempPerson, null);
+                                               Log.e("SADDSADSADAS", "SADSAFFSA");
 
-                }
-                Log.e("SADDSADSADAS","SADSAFFSA");
-                onSaveEditPressed(getArguments().getInt(ARG_USERID));
-            }
-            }
+                                           }
+                                           Log.e("SADDSADSADAS", "SADSAFFSA");
+                                           onSaveEditPressed(getArguments().getInt(ARG_USERID));
+                                       }
+                                   }
 
 
         );
@@ -143,22 +153,24 @@ final  ImageView a = (ImageView)v.findViewById(R.id.imgUserImage);
             mListener.onEditUserFragmentInteraction(id);
         }
     }
-//    // TODO: Rename method, update argument and hook method into UI event
+
+    //    // TODO: Rename method, update argument and hook method into UI event
 //    public void onButtonPressed(Uri uri) {
 //        if (mListener != null) {
 //            mListener.onFragmentInteraction(uri);
 //        }
 //    }
-@Override
-public void onAttach(Activity activity) {
-    super.onAttach(activity);
-    try {
-        mListener = (OnEditUserFragmentInteractionListener) activity;
-    } catch (ClassCastException e) {
-        throw new ClassCastException(activity.toString()
-                + " must implement OnAllUsersFragmentInteractionListener");
+    @Override
+    public void onAttach(Activity activity) {
+        super.onAttach(activity);
+        try {
+            mListener = (OnEditUserFragmentInteractionListener) activity;
+        } catch (ClassCastException e) {
+            throw new ClassCastException(activity.toString()
+                    + " must implement OnAllUsersFragmentInteractionListener");
+        }
     }
-}
+
     @Override
     public void onAttach(Context activity) {
         super.onAttach(activity);
@@ -169,7 +181,9 @@ public void onAttach(Activity activity) {
                     + " must implement OnAllUsersFragmentInteractionListener");
         }
     }
+
     Bitmap workingImage;
+
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
@@ -179,12 +193,13 @@ public void onAttach(Activity activity) {
 
             Bundle extras = data.getExtras();
             Bitmap mImageBitmap = (Bitmap) extras.get("data");
-            workingImage=mImageBitmap;
-            ImageView a = (ImageView)getActivity().findViewById(R.id.imgUserImage);
+            workingImage = mImageBitmap;
+            ImageView a = (ImageView) getActivity().findViewById(R.id.imgUserImage);
             a.setImageBitmap(mImageBitmap);
 
         }
     }
+
     @Override
     public void onDetach() {
         super.onDetach();

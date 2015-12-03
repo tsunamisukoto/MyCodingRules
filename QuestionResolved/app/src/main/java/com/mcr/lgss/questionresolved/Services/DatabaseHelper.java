@@ -61,16 +61,26 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         cv.put(Person.colName,p.Name);
         cv.put(Person.colDescription,p.Description);
         cv.put(Person.colImage,p.Image);
+        cv.put(p.colEmail, p.Email);
+        cv.put(p.colPhoneNumber, p.PhoneNumber);
+        if(p.LastSeenCoordinates!=null  )
+            cv.put(p.colLastSeenCoordinates, p.LastSeenCoordinates);
+        else
+             cv.put(p.colLastSeenCoordinates,"NA");
+        cv.put(p.colPositionName, p.PosName);
+        cv.put(p.colQuote, p.Quote);
+
+        cv.put(p.colEmail, p.Email);
         return db.insert(Person.TableName,Person.colID,cv);
 
     }
     public Person GetPerson(int id)
     {
         SQLiteDatabase db=this.getReadableDatabase();
-        Cursor cur = db.rawQuery("SELECT "+ Person.colID+", "+ Person.colName+", " +Person.colDescription+", "+Person.colImage+" FROM "+ Person.TableName+" WHERE "+ Person.colID+ "=?",new String[]{id+""});
+        Cursor cur = db.rawQuery("SELECT "+Person.colID+" , "+Person.colName+", "+Person.colDescription+", "+Person.colEmail+", "+Person.colPhoneNumber+", "+Person.colPositionName+", "+Person.colQuote+", "+Person.colLastSeenCoordinates+", " + Person.colImage + " from "+Person.TableName+" WHERE "+ Person.colID+ "=?",new String[]{id+""});
         if(cur.moveToFirst())
         {
-            Person p = new Person(cur.getInt(cur.getColumnIndex(Person.colID)),(cur.getString(cur.getColumnIndex(Person.colName))),(cur.getString(cur.getColumnIndex(Person.colDescription))), cur.getBlob(cur.getColumnIndex(Person.colImage)), , , , , );
+            Person p = new Person(cur.getInt(cur.getColumnIndex(Person.colID)),(cur.getString(cur.getColumnIndex(Person.colName))),(cur.getString(cur.getColumnIndex(Person.colDescription))), cur.getBlob(cur.getColumnIndex(Person.colImage)),(cur.getString(cur.getColumnIndex(Person.colPositionName))) ,(cur.getString(cur.getColumnIndex(Person.colQuote))) , (cur.getString(cur.getColumnIndex(Person.colPhoneNumber))),(cur.getString(cur.getColumnIndex(Person.colEmail))) , (cur.getString(cur.getColumnIndex(Person.colLastSeenCoordinates))));
             return p;
         }
         return null;
@@ -79,12 +89,12 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     {
         list.clear();
         SQLiteDatabase db=this.getReadableDatabase();
-        Cursor cur=db.rawQuery("SELECT "+Person.colID+" , "+Person.colName+", "+Person.colDescription+", " + Person.colImage + " from "+Person.TableName+" ORDER BY " + Person.colName,new String [] {});
+        Cursor cur=db.rawQuery("SELECT "+Person.colID+" , "+Person.colName+", "+Person.colDescription+", "+Person.colEmail+", "+Person.colPhoneNumber+", "+Person.colPositionName+", "+Person.colQuote+", "+Person.colLastSeenCoordinates+", " + Person.colImage + " from "+Person.TableName+" ORDER BY " + Person.colName,new String [] {});
 
         for (cur.moveToFirst(); !cur.isAfterLast(); cur.moveToNext()) {
 
             try {
-                Person p = new Person(cur.getInt(cur.getColumnIndex(Person.colID)),(cur.getString(cur.getColumnIndex(Person.colName))),(cur.getString(cur.getColumnIndex(Person.colDescription))), cur.getBlob(cur.getColumnIndex(Person.colImage)), , , , , );
+                Person p = new Person(cur.getInt(cur.getColumnIndex(Person.colID)),(cur.getString(cur.getColumnIndex(Person.colName))),(cur.getString(cur.getColumnIndex(Person.colDescription))), cur.getBlob(cur.getColumnIndex(Person.colImage)),(cur.getString(cur.getColumnIndex(Person.colPositionName))) ,(cur.getString(cur.getColumnIndex(Person.colQuote))) , (cur.getString(cur.getColumnIndex(Person.colPhoneNumber))),(cur.getString(cur.getColumnIndex(Person.colEmail))) , (cur.getString(cur.getColumnIndex(Person.colLastSeenCoordinates))));
 
                 list.add(p);
             } catch (ParseException e) {
@@ -103,6 +113,14 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         cv.put(p.colName, p.Name);
         cv.put(p.colDescription, p.Description);
         cv.put(p.colImage, p.Image);
+        cv.put(p.colEmail, p.Email);
+        cv.put(p.colPhoneNumber, p.PhoneNumber);
+        if(p.LastSeenCoordinates!=null  )
+        cv.put(p.colLastSeenCoordinates, p.LastSeenCoordinates);
+        cv.put(p.colPositionName, p.PosName);
+        cv.put(p.Quote, p.Quote);
+
+        cv.put(p.colEmail, p.Email);
         return db.update(Person.TableName, cv, Person.colID+"=?",  new String[]{String.valueOf(p.ID)});
     }
 }
