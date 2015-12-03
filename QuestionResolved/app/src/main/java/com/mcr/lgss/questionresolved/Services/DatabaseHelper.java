@@ -118,7 +118,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         if(p.LastSeenCoordinates!=null  )
         cv.put(p.colLastSeenCoordinates, p.LastSeenCoordinates);
         cv.put(p.colPositionName, p.PosName);
-        cv.put(p.Quote, p.Quote);
+        cv.put(p.colQuote, p.Quote);
 
         cv.put(p.colEmail, p.Email);
         return db.update(Person.TableName, cv, Person.colID+"=?",  new String[]{String.valueOf(p.ID)});
