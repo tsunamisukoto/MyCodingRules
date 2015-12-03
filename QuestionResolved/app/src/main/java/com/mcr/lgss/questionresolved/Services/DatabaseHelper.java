@@ -17,7 +17,6 @@ import android.net.ParseException;
 
 import com.mcr.lgss.questionresolved.Entities.Person;
 
-import java.lang.reflect.Array;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -35,12 +34,14 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         db.execSQL("DROP TABLE IF EXISTS "+ Person.TableName);
 
         db.execSQL(Person.CreateTable());
-        InsertPerson(new Person(1, "Name", "Description", "Image".getBytes()), db);
-        InsertPerson(new Person(1, "Name2","Description","Image".getBytes()),db);
-        InsertPerson(new Person(1, "Name3","Description","Image".getBytes()),db);
-        InsertPerson(new Person(1, "Name4","Description","Image".getBytes()),db);
-        InsertPerson(new Person(1, "Name5","Description","Image".getBytes()),db);
-        InsertPerson(new Person(1, "Name6","Description","Image".getBytes()),db);
+        InsertPerson(new Person(1, "Scott", "Description", "Image".getBytes(),"Grad Developer" ,"Fare Thee Well" ,"0449877370" , "scottb@lgss.com.au", ""), db);
+        InsertPerson(new Person(1, "Dan","Description","Image".getBytes(), "Grad Developer","Can You Not?" ,"0401722245" ,"danielc@lgss.com.au" ,"" ),db);
+        InsertPerson(new Person(1, "Swag","Description","Image".getBytes(), "Grad Developer","Brudddaaaaaaaaaaahhhhh!" , "","thomasm@lgss.com.au" ,"" ),db);
+        InsertPerson(new Person(1, "Henry","Description","Image".getBytes(),"Grad Developer" , "Is it?","" ,"henryt@lgss.com.au" , ""),db);
+        InsertPerson(new Person(1, "Gav","Description","Image".getBytes(),"Senior Developer" , "That's good, I like it a lot! Consistency Consistency Consistency", "0404769458","gavinh@lgss.com.au" ,"" ),db);
+        InsertPerson(new Person(1, "Marc","Description","Image".getBytes(),"Tech Officer" , "Thats a Head F@%!", "0402414915","markt@lgss.com.au" ,"" ),db);
+        InsertPerson(new Person(1, "TeeMonay","Description","Image".getBytes(),"Director" ,"" , "0414689256", "thomasr@lgss.com.au","" ),db);
+        InsertPerson(new Person(1, "Geoff","Description","Image".getBytes(),"Director" ,"" , "", "geoffr@lgss.com.au","" ),db);
     }
 
     @Override
@@ -69,7 +70,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         Cursor cur = db.rawQuery("SELECT "+ Person.colID+", "+ Person.colName+", " +Person.colDescription+", "+Person.colImage+" FROM "+ Person.TableName+" WHERE "+ Person.colID+ "=?",new String[]{id+""});
         if(cur.moveToFirst())
         {
-            Person p = new Person(cur.getInt(cur.getColumnIndex(Person.colID)),(cur.getString(cur.getColumnIndex(Person.colName))),(cur.getString(cur.getColumnIndex(Person.colDescription))), cur.getBlob(cur.getColumnIndex(Person.colImage)));
+            Person p = new Person(cur.getInt(cur.getColumnIndex(Person.colID)),(cur.getString(cur.getColumnIndex(Person.colName))),(cur.getString(cur.getColumnIndex(Person.colDescription))), cur.getBlob(cur.getColumnIndex(Person.colImage)), , , , , );
             return p;
         }
         return null;
@@ -83,7 +84,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         for (cur.moveToFirst(); !cur.isAfterLast(); cur.moveToNext()) {
 
             try {
-                Person p = new Person(cur.getInt(cur.getColumnIndex(Person.colID)),(cur.getString(cur.getColumnIndex(Person.colName))),(cur.getString(cur.getColumnIndex(Person.colDescription))), cur.getBlob(cur.getColumnIndex(Person.colImage)));
+                Person p = new Person(cur.getInt(cur.getColumnIndex(Person.colID)),(cur.getString(cur.getColumnIndex(Person.colName))),(cur.getString(cur.getColumnIndex(Person.colDescription))), cur.getBlob(cur.getColumnIndex(Person.colImage)), , , , , );
 
                 list.add(p);
             } catch (ParseException e) {

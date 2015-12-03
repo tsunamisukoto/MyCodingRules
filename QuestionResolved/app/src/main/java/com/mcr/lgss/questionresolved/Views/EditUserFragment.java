@@ -6,9 +6,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
-import android.net.Uri;
 import android.os.Bundle;
-import android.os.Environment;
 import android.provider.MediaStore;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -23,8 +21,6 @@ import com.mcr.lgss.questionresolved.R;
 import com.mcr.lgss.questionresolved.Services.DatabaseHelper;
 
 import java.io.ByteArrayOutputStream;
-import java.io.File;
-import java.io.IOException;
 
 /**
  * Created by Daniel on 19/11/2015.
@@ -116,7 +112,7 @@ final  ImageView a = (ImageView)v.findViewById(R.id.imgUserImage);
                 if(workingImage!=null   )
                 workingImage.compress(Bitmap.CompressFormat.PNG, 100, stream);
                 byte[] byteArray = stream.toByteArray();
-                Person tempPerson = new Person(argID, edittxt_name.getText().toString(), edittxt_desc.getText().toString(), byteArray  );
+                Person tempPerson = new Person(argID, edittxt_name.getText().toString(), edittxt_desc.getText().toString(), byteArray, , , , , );
                 Log.e("SADDSADSADAS","SADSAFFSA2");
 
                 if (argID == -1) {
