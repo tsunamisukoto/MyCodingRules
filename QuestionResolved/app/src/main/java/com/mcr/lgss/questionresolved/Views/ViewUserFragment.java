@@ -2,6 +2,8 @@ package com.mcr.lgss.questionresolved.Views;
 
 import android.app.Activity;
 import android.content.Context;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.os.Bundle;
 import android.app.Fragment;
@@ -10,6 +12,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageButton;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.mcr.lgss.questionresolved.Entities.Person;
@@ -63,6 +66,11 @@ public class ViewUserFragment extends Fragment {
  TextView txt_id;
     TextView txt_name;
     TextView txt_desc;
+    TextView txt_position;
+    TextView txt_quote;
+    TextView txt_phone;
+    TextView txt_email;
+    TextView txt_coord;
     TextView txt_missing;
     ImageButton btnEdit;
     @Override
@@ -73,10 +81,15 @@ public class ViewUserFragment extends Fragment {
          btnEdit= (ImageButton) v.findViewById(R.id.btn_edit);
 
 
-        txt_id = (TextView) v.findViewById(R.id.lbl_id);
+        txt_id = (TextView) v.findViewById(R.id.lbl_id_txt);
+        txt_name = (TextView)  v.findViewById(R.id.lbl_name_txt);
+        txt_desc = (TextView) v.findViewById(R.id.lbl_description_txt);
+        txt_position = (TextView) v.findViewById(R.id.lbl_position_txt);
+        txt_quote = (TextView) v.findViewById(R.id.lbl_quote_txt);
+        txt_phone = (TextView) v.findViewById(R.id.lbl_phone_txt);
+        txt_email = (TextView) v.findViewById(R.id.lbl_email_txt);
+        txt_coord = (TextView) v.findViewById(R.id.lbl_coord_txt);
 
-        txt_name= (TextView)  v.findViewById(R.id.lbl_name);
-        txt_desc= (TextView) v.findViewById(R.id.lbl_description);
         txt_missing= (TextView) v.findViewById(R.id.lbl_missing);
         if (getArguments() != null) {
             userID = getArguments().getInt(ARG_USERID);
@@ -93,9 +106,24 @@ public class ViewUserFragment extends Fragment {
                 DatabaseHelper dbHelper = new DatabaseHelper(getActivity().getApplicationContext());
                 Person person = dbHelper.GetPerson(id);
 
+                ImageView userimg = (ImageView) v.findViewById(R.id.img_userDetails);
+                Bitmap workingImage;
+
                 if(person != null) {
                     txt_name.append(" " +person.Name);
                     txt_desc.append(" " + person.Description);
+                    txt_position.append(" " +person.PosName);
+                    txt_quote.append(" " +person.Quote);
+                    txt_phone.append(" " +person.PhoneNumber);
+                    txt_email.append(" " +person.Email);
+                    txt_coord.append(" " +person.LastSeenCoordinates);
+
+                    if(person.Image != null) {
+                        workingImage= BitmapFactory.decodeByteArray(person.Image, 0, person.Image.length);
+
+                        if(workingImage!=null&& userimg!=null)
+                            userimg.setImageBitmap(workingImage);
+                    }
 
                 } else {
                     btnEdit.setVisibility(View.INVISIBLE);
@@ -103,9 +131,6 @@ public class ViewUserFragment extends Fragment {
                     txt_name.setVisibility(View.INVISIBLE);
                     txt_desc.setVisibility(View.INVISIBLE);
                 }
-
-
-
         }
         return v;
     }
