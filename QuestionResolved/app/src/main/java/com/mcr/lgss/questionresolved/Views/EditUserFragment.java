@@ -2,10 +2,13 @@ package com.mcr.lgss.questionresolved.Views;
 
 import android.app.Activity;
 import android.app.Fragment;
+import android.content.ContentValues;
 import android.content.Context;
 import android.content.Intent;
+import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
 import android.util.Log;
@@ -24,6 +27,7 @@ import com.mcr.lgss.questionresolved.R;
 import com.mcr.lgss.questionresolved.Services.DatabaseHelper;
 
 import java.io.ByteArrayOutputStream;
+import java.io.IOException;
 
 /**
  * Created by Daniel on 19/11/2015.
@@ -71,21 +75,46 @@ public class EditUserFragment extends Fragment {
     public boolean onOptionsItemSelected(MenuItem item) {
         int id = item.getItemId();
         if(id == R.id.action_favorite){
-            //Do whatever you want to do
+            DatabaseHelper dbHelper = new DatabaseHelper(getActivity().getApplicationContext());
+
+            ByteArrayOutputStream stream = new ByteArrayOutputStream();
+            if (workingImage != null)
+                workingImage.compress(Bitmap.CompressFormat.PNG, 100, stream);
+            byte[] byteArray = stream.toByteArray();
+            Person tempPerson = new Person(argID, edittxt_name.getText().toString(), edittxt_desc.getText().toString(), byteArray, edittxt_posno.getText().toString(),
+                    edittxt_quote.getText().toString(), edittxt_phsno.getText().toString(), edittxt_email.getText().toString(), null);
+
+            if (argID == -1) {
+                dbHelper.InsertPerson(tempPerson, null);
+            } else {
+                dbHelper.UpdatePerson(tempPerson, null);
+
+            }
+            onSaveEditPressed(getArguments().getInt(ARG_USERID));
             return true;
         }
         if(id == R.id.action_cam){
-            Intent cameraIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
-            //cameraIntent.putExtra(MediaStore.EXTRA_OUTPUT, outputFileUri);
-
-            startActivityForResult(cameraIntent, TAKE_PHOTO_CODE);
+            ContentValues values = new ContentValues();
+            values.put(MediaStore.Images.Media.TITLE, "New Picture");
+            values.put(MediaStore.Images.Media.DESCRIPTION, "From your Camera");
+            imageUri = getActivity().getContentResolver().insert(
+                    MediaStore.Images.Media.EXTERNAL_CONTENT_URI, values);
+            Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+            intent.putExtra(MediaStore.EXTRA_OUTPUT, imageUri);
+            startActivityForResult(intent, TAKE_PHOTO_CODE);
             return true;
         }
 
         return super.onOptionsItemSelected(item);
     }
-    int count = 0;
-
+    EditText edittxt_name;
+    EditText edittxt_desc;
+    EditText edittxt_posno;
+    EditText edittxt_phsno;
+    EditText edittxt_quote;
+    EditText edittxt_email;
+    Uri imageUri;
+    int argID;
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -93,14 +122,14 @@ public class EditUserFragment extends Fragment {
         View v = inflater.inflate(R.layout.fragment_edit_user, container, false);
 
 
-        final EditText edittxt_name = (EditText) v.findViewById(R.id.tb_nameedit);
-        final EditText edittxt_desc = (EditText) v.findViewById(R.id.tb_descedit);
-        final EditText edittxt_posno = (EditText) v.findViewById(R.id.tb_posnoedit);
-        final EditText edittxt_phsno = (EditText) v.findViewById(R.id.tb_phnoedit);
-        final EditText edittxt_quote = (EditText) v.findViewById(R.id.tb_quoteedit);
-        final EditText edittxt_email = (EditText) v.findViewById(R.id.tb_emailedit);
+         edittxt_name= (EditText) v.findViewById(R.id.tb_nameedit);
+         edittxt_desc = (EditText) v.findViewById(R.id.tb_descedit);
+         edittxt_posno = (EditText) v.findViewById(R.id.tb_posnoedit);
+         edittxt_phsno = (EditText) v.findViewById(R.id.tb_phnoedit);
+         edittxt_quote = (EditText) v.findViewById(R.id.tb_quoteedit);
+         edittxt_email = (EditText) v.findViewById(R.id.tb_emailedit);
         final ImageView a = (ImageView) v.findViewById(R.id.imgUserImage);
-        final int argID = getArguments().getInt(ARG_USERID);
+        argID  = getArguments().getInt(ARG_USERID);
 
         if (argID != -1) {
             DatabaseHelper dbHelper = new DatabaseHelper(getActivity().getApplicationContext());
@@ -121,36 +150,6 @@ public class EditUserFragment extends Fragment {
             }
         }
 
-        Button btnEdit = (Button) v.findViewById(R.id.btn_save);
-        btnEdit.setOnClickListener(new View.OnClickListener() {
-
-
-                                       @Override
-                                       public void onClick(View v) {
-                                           DatabaseHelper dbHelper = new DatabaseHelper(getActivity().getApplicationContext());
-
-                                           ByteArrayOutputStream stream = new ByteArrayOutputStream();
-                                           if (workingImage != null)
-                                               workingImage.compress(Bitmap.CompressFormat.PNG, 100, stream);
-                                           byte[] byteArray = stream.toByteArray();
-                                           Person tempPerson = new Person(argID, edittxt_name.getText().toString(), edittxt_desc.getText().toString(), byteArray, edittxt_posno.getText().toString(),
-                                                   edittxt_quote.getText().toString(), edittxt_phsno.getText().toString(), edittxt_email.getText().toString(), null);
-                                           Log.e("SADDSADSADAS", "SADSAFFSA2");
-
-                                           if (argID == -1) {
-                                               dbHelper.InsertPerson(tempPerson, null);
-                                           } else {
-                                               dbHelper.UpdatePerson(tempPerson, null);
-                                               Log.e("SADDSADSADAS", "SADSAFFSA");
-
-                                           }
-                                           Log.e("SADDSADSADAS", "SADSAFFSA");
-                                           onSaveEditPressed(getArguments().getInt(ARG_USERID));
-                                       }
-                                   }
-
-
-        );
 //       Intent callingIntent = getIntent();
 //
 //        edittxt_name.setText(callingIntent.getStringExtra("name"));
@@ -204,15 +203,29 @@ public class EditUserFragment extends Fragment {
         if (requestCode == TAKE_PHOTO_CODE && resultCode == getActivity().RESULT_OK) {
 
 
-            Bundle extras = data.getExtras();
-            Bitmap mImageBitmap = (Bitmap) extras.get("data");
-            workingImage = mImageBitmap;
-            ImageView a = (ImageView) getActivity().findViewById(R.id.imgUserImage);
-            a.setImageBitmap(mImageBitmap);
+            Bitmap thumbnail = null;
+            try {
+                thumbnail = MediaStore.Images.Media.getBitmap(
+                         getActivity().getContentResolver(), imageUri);
+                ImageView a = (ImageView) getActivity().findViewById(R.id.imgUserImage);
+                workingImage=BitmapFactory.decodeFile( getRealPathFromURI(imageUri));
+                a.setImageBitmap(workingImage);
+
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+
 
         }
     }
-
+    public String getRealPathFromURI(Uri contentUri) {
+        String[] proj = { MediaStore.Images.Media.DATA };
+        Cursor cursor = getActivity().getContentResolver().query(contentUri, proj, null, null, null);
+        int column_index = cursor
+                .getColumnIndexOrThrow(MediaStore.Images.Media.DATA);
+        cursor.moveToFirst();
+        return cursor.getString(column_index);
+    }
     @Override
     public void onDetach() {
         super.onDetach();

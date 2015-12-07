@@ -130,13 +130,15 @@ public class HomeScreen extends AppCompatActivity implements ViewAllUsersFragmen
         Fragment fragment=null;
 
         FragmentManager fragmentManager = getFragmentManager();
-        Bundle args = new Bundle();
+        Bundle args = new Bundle();        Log.e("Scotts Debugs","5");
+
 
         FragmentTransaction man = fragmentManager.beginTransaction();
         fragment  = new EditUserFragment();
         args.putInt(EditUserFragment.ARG_USERID, (id));
         fragment.setArguments(args);
         // Insert the fragment by replacing any existing fragment
+        Log.e("Scotts Debugs","6");
 
         man.setCustomAnimations(R.transition.activity_slide, R.transition.activity_slideout, R.transition.activity_slidereverse,R.transition.activity_slideoutreverse);
         man.replace(R.id.content_frame, fragment).addToBackStack( null );

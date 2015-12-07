@@ -14,11 +14,16 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageButton;
 import android.widget.ImageView;
+import android.widget.ListView;
 import android.widget.TextView;
 
+import com.mcr.lgss.questionresolved.Adapters.DatabaseField;
+import com.mcr.lgss.questionresolved.Adapters.DatabaseFieldAdapter;
 import com.mcr.lgss.questionresolved.Entities.Person;
 import com.mcr.lgss.questionresolved.R;
 import com.mcr.lgss.questionresolved.Services.DatabaseHelper;
+
+import java.util.ArrayList;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -64,15 +69,6 @@ public class ViewUserFragment extends Fragment {
 
         
     }
- TextView txt_id;
-    TextView txt_name;
-    TextView txt_desc;
-    TextView txt_position;
-    TextView txt_quote;
-    TextView txt_phone;
-    TextView txt_email;
-    TextView txt_coord;
-    TextView txt_missing;
     ImageButton btnEdit;
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -82,66 +78,56 @@ public class ViewUserFragment extends Fragment {
          btnEdit= (ImageButton) v.findViewById(R.id.btn_edit);
 
 
-        txt_id = (TextView) v.findViewById(R.id.lbl_id_txt);
-        txt_name = (TextView)  v.findViewById(R.id.lbl_name_txt);
-        txt_desc = (TextView) v.findViewById(R.id.lbl_description_txt);
-        txt_position = (TextView) v.findViewById(R.id.lbl_position_txt);
-        txt_quote = (TextView) v.findViewById(R.id.lbl_quote_txt);
-        txt_phone = (TextView) v.findViewById(R.id.lbl_phone_txt);
-        txt_email = (TextView) v.findViewById(R.id.lbl_email_txt);
-        txt_coord = (TextView) v.findViewById(R.id.lbl_coord_txt);
-
-        txt_missing= (TextView) v.findViewById(R.id.lbl_missing);
         if (getArguments() != null) {
             userID = getArguments().getInt(ARG_USERID);
 
                 final int id = (userID);
+            Log.e("SDDSDSDS","SFASFSAFSA");
             btnEdit.setOnClickListener(new View.OnClickListener() {
                 public void onClick(View v) {
 //                    goToEdit(v);
+
+                    Log.e("SDDSDSDS","SFASFSAFSA");
+
                     onButtonPressed(id);
                 }
             });
-                txt_id.setText("" +id);
 
                 DatabaseHelper dbHelper = new DatabaseHelper(getActivity().getApplicationContext());
-                Person person = dbHelper.GetPerson(id);
+                final Person person = dbHelper.GetPerson(id);
 
                 ImageView userimg = (ImageView) v.findViewById(R.id.img_userDetails);
                 Bitmap workingImage;
 
                 if(person != null) {
-                    txt_name.setText("" + person.Name);
-                    txt_desc.setText("" + person.Description);
-                    txt_position.setText("" + person.PosName);
-                    txt_quote.setText("" + person.Quote);
-                    txt_phone.setText("" + person.PhoneNumber);
-                    txt_email.setText("" + person.Email);
-                    txt_coord.setText("" +person.LastSeenCoordinates);
-
-                    txt_phone.setOnClickListener(new View.OnClickListener() {
+                    ArrayList<DatabaseField> dbfields = new ArrayList<>();
+                    dbfields.add(new DatabaseField(R.drawable.user168, "Name", person.Name,null));
+                    dbfields.add(new DatabaseField(0, "Description", person.Description,null));
+                    dbfields.add(new DatabaseField(0, "Position", person.PosName,null));
+                    dbfields.add(new DatabaseField(R.drawable.citation, "Quote", person.Quote,null));
+                    dbfields.add(new DatabaseField(R.drawable.phone325, "Phone Number", person.PhoneNumber,new View.OnClickListener() {
                         @Override
-                        public void onClick(View v) {
-                            Intent callIntent = new Intent(Intent.ACTION_CALL);
-                            callIntent.setData(Uri.parse(txt_phone.getText()+""));
-                            startActivity(callIntent);
-                        }
-                    });
-
-                    txt_email.setOnClickListener(new View.OnClickListener() {
+                       public void onClick(View v) {
+                           Intent callIntent = new Intent(Intent.ACTION_CALL);callIntent.setData(Uri.parse("tel:" +person.PhoneNumber));
+                          startActivity(callIntent);
+                       }
+                    }));
+                    dbfields.add(new DatabaseField(R.drawable.mail59, "Email", person.Email,new View.OnClickListener() {
                         @Override
                         public void onClick(View v) {
                             Intent sendIntent = new Intent(Intent.ACTION_VIEW);
                             sendIntent.setType("plain/text");
                             sendIntent.setData(Uri.parse("test@gmail.com"));
                             sendIntent.setClassName("com.google.android.gm", "com.google.android.gm.ComposeActivityGmail");
-                            sendIntent.putExtra(Intent.EXTRA_EMAIL, new String[] { txt_email.getText()+"" });
-                            sendIntent.putExtra(Intent.EXTRA_SUBJECT, "test");
-                            sendIntent.putExtra(Intent.EXTRA_TEXT, "hello. this is a message sent from my demo app :-)");
+                            sendIntent.putExtra(Intent.EXTRA_EMAIL, new String[] {person.Email });
+                            sendIntent.putExtra(Intent.EXTRA_SUBJECT, "We Have Emails In our app");
+                            sendIntent.putExtra(Intent.EXTRA_TEXT, "");
                             startActivity(sendIntent);
                         }
-                    });
-
+                    } ));
+                    dbfields.add(new DatabaseField(R.drawable.navigation12, "Last Seen Coordinates", person.LastSeenCoordinates ,null));
+                    ListView lv = (ListView)v.findViewById(R.id.lvInfo);
+                    lv.setAdapter(new DatabaseFieldAdapter(getActivity(),dbfields.toArray()));
                     if (person.Image != null) {
                         workingImage = BitmapFactory.decodeByteArray(person.Image, 0, person.Image.length);
 
@@ -151,9 +137,7 @@ public class ViewUserFragment extends Fragment {
 
                 } else {
                     btnEdit.setVisibility(View.INVISIBLE);
-                    txt_missing.setVisibility(View.VISIBLE);
-                    txt_name.setVisibility(View.INVISIBLE);
-                    txt_desc.setVisibility(View.INVISIBLE);
+
                 }
         }
         return v;
@@ -161,7 +145,9 @@ public class ViewUserFragment extends Fragment {
 
     // TODO: Rename method, update argument and hook method into UI event
     public void onButtonPressed(int uri) {
-        if (mListener != null) {
+        Log.e("Scotts Debugs","1");
+        if (mListener != null) {        Log.e("Scotts Debugs","2");
+
             mListener.onViewUserFragmentInteraction(uri);
         }
     }
@@ -169,10 +155,10 @@ public class ViewUserFragment extends Fragment {
     @Override
     public void onAttach(Activity activity) {
         super.onAttach(activity);
-        try {
-            Log.e("LISGTERNER ATTACHING","SADSADAS");
+        try {        Log.e("Scotts Debugs","3");
+
             mListener = (OnViewUserFragmentInteractionListener) activity;
-            Log.e("LISGTERNER ATTACHED","SADSADAS");
+            Log.e("Scotts Debugs","4");
 
         } catch (ClassCastException e) {
             throw new ClassCastException(activity.toString()

@@ -2,19 +2,19 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
-    <!-- "Mark Favorite", should appear as action button if possible -->
-   <item
-    android:id="@+id/action_favorite"
-    android:icon="@drawable/save29"
-    android:title="Save"
-
-    app:showAsAction="ifRoom"/>
     <item
         android:id="@+id/action_cam"
         android:icon="@drawable/instagram10"
         android:title="Pause"
 
         app:showAsAction="ifRoom"/>
+   <item
+    android:id="@+id/action_favorite"
+    android:icon="@drawable/save29"
+    android:title="Save"
+
+    app:showAsAction="ifRoom"/>
+
 
 
 
