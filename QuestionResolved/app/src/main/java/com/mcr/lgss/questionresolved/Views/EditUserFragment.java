@@ -145,6 +145,7 @@ public class EditUserFragment extends Fragment {
                 workingImage = BitmapFactory.decodeByteArray(person.Image, 0, person.Image.length);
 
                 if (workingImage != null && a != null)
+
                     a.setImageBitmap(workingImage);
 
             }
@@ -208,7 +209,16 @@ public class EditUserFragment extends Fragment {
                 thumbnail = MediaStore.Images.Media.getBitmap(
                          getActivity().getContentResolver(), imageUri);
                 ImageView a = (ImageView) getActivity().findViewById(R.id.imgUserImage);
-                workingImage=BitmapFactory.decodeFile( getRealPathFromURI(imageUri));
+
+                 workingImage=BitmapFactory.decodeFile(getRealPathFromURI(imageUri));
+
+                if(workingImage!=null)
+                {
+                    workingImage = Bitmap.createScaledBitmap(workingImage, 400, 400, false);
+                    a.setImageBitmap(workingImage);
+                }
+                else
+                    a.setImageResource(R.drawable.user168);
                 a.setImageBitmap(workingImage);
 
             } catch (IOException e) {

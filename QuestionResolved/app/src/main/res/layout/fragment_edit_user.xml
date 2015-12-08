@@ -3,13 +3,23 @@
     android:orientation="vertical" android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <ImageView
-        android:layout_width="wrap_content"
+    <RelativeLayout
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:id="@+id/imgUserImage"
-        android:layout_alignParentTop="true"
-        android:layout_alignParentStart="true"
-        android:layout_alignLeft="@+id/tb_posnoedit"/>
+        android:elevation="5dp"
+        android:background="@android:color/darker_gray">
+
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/imgUserImage"
+            android:layout_alignParentTop="true"
+            android:layout_alignParentStart="false"
+            android:minWidth="200dp"
+            android:minHeight="200dp"
+            android:layout_centerInParent="true"
+            android:src="@+drawable/user168" />
+    </RelativeLayout>
 
     <ScrollView
         android:layout_width="wrap_content"
@@ -40,7 +50,8 @@
                     android:id="@+id/tb_nameedit"
                     android:layout_below="@+id/lbl_nameedit"
 
-                    android:layout_alignParentStart="true" />
+                    android:layout_alignParentStart="true"
+                    android:layout_marginBottom="10dp" />
 
                 <TextView
                     android:layout_width="wrap_content"
@@ -55,7 +66,8 @@
                     android:layout_height="wrap_content"
                     android:id="@+id/tb_descedit"
                     android:layout_below="@+id/lbl_descedit"
-                    android:layout_alignParentStart="true" />
+                    android:layout_alignParentStart="true"
+                    android:layout_marginBottom="10dp" />
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
@@ -69,7 +81,8 @@
                     android:layout_height="wrap_content"
                     android:id="@+id/tb_phnoedit"
                     android:layout_below="@+id/lbl_phnoedit"
-                    android:layout_alignParentStart="true" />
+                    android:layout_alignParentStart="true"
+                    android:layout_marginBottom="10dp" />
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
@@ -83,7 +96,8 @@
                     android:layout_height="wrap_content"
                     android:id="@+id/tb_emailedit"
                     android:layout_below="@+id/lbl_emaildit"
-                    android:layout_alignParentStart="true" />
+                    android:layout_alignParentStart="true"
+                    android:layout_marginBottom="10dp" />
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
@@ -97,7 +111,8 @@
                     android:layout_height="wrap_content"
                     android:id="@+id/tb_quoteedit"
                     android:layout_below="@+id/lbl_quoteedit"
-                    android:layout_alignParentStart="true" />
+                    android:layout_alignParentStart="true"
+                    android:layout_marginBottom="10dp" />
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
@@ -111,7 +126,8 @@
                     android:layout_height="wrap_content"
                     android:id="@+id/tb_posnoedit"
                     android:layout_below="@+id/lbl_posnoedit"
-                    android:layout_alignParentStart="true" />
+                    android:layout_alignParentStart="true"
+                    android:layout_marginBottom="10dp" />
 
 
             </RelativeLayout>

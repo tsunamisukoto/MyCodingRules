@@ -8,6 +8,8 @@ import android.app.FragmentTransaction;
 import android.content.ActivityNotFoundException;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.location.Location;
+import android.location.LocationListener;
 import android.net.Uri;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarActivity;
@@ -20,6 +22,7 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
+import android.widget.Toast;
 
 import com.mcr.lgss.questionresolved.Entities.Person;
 import com.mcr.lgss.questionresolved.R;
@@ -27,7 +30,7 @@ import com.mcr.lgss.questionresolved.Services.DatabaseHelper;
 
 import java.util.ArrayList;
 
-public class HomeScreen extends AppCompatActivity implements ViewAllUsersFragment.OnAllUsersFragmentInteractionListener  ,ViewUserFragment.OnViewUserFragmentInteractionListener,EditUserFragment.OnEditUserFragmentInteractionListener{
+public class HomeScreen extends AppCompatActivity  implements LocationListener, ViewAllUsersFragment.OnAllUsersFragmentInteractionListener  ,ViewUserFragment.OnViewUserFragmentInteractionListener,EditUserFragment.OnEditUserFragmentInteractionListener{
     DatabaseHelper dbHelper;
     private String[] mPlanetTitles=new String[]{"Register New User", "Scan For User", "View All Users", "Send Email to All Users"};
     private ListView mDrawerList;
@@ -42,7 +45,7 @@ public class HomeScreen extends AppCompatActivity implements ViewAllUsersFragmen
         setContentView(R.layout.activity_home_screen);
 
         dbHelper = new DatabaseHelper(getApplicationContext());
-    //  dbHelper.onCreate(  dbHelper.getWritableDatabase());
+      dbHelper.onCreate(  dbHelper.getWritableDatabase());
         mDrawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
         mDrawerList = (ListView) findViewById(R.id.left_drawer);
 
@@ -141,7 +144,7 @@ public class HomeScreen extends AppCompatActivity implements ViewAllUsersFragmen
         Log.e("Scotts Debugs","6");
 
         man.setCustomAnimations(R.transition.activity_slide, R.transition.activity_slideout, R.transition.activity_slidereverse,R.transition.activity_slideoutreverse);
-        man.replace(R.id.content_frame, fragment).addToBackStack( null );
+        man.replace(R.id.content_frame, fragment).addToBackStack(null);
         man.commit();
     }
 
@@ -162,6 +165,27 @@ public class HomeScreen extends AppCompatActivity implements ViewAllUsersFragmen
         fragmentManager.popBackStack();
      //   man.replace(R.id.content_frame, fragment).addToBackStack( null );
         man.commit();
+    }
+    public static  String CurrentLocation;
+
+    @Override
+    public void onLocationChanged(Location location) {
+        CurrentLocation=location.getLatitude()+","+ location.getLongitude();
+    }
+
+    @Override
+    public void onStatusChanged(String provider, int status, Bundle extras) {
+
+    }
+
+    @Override
+    public void onProviderEnabled(String provider) {
+
+    }
+
+    @Override
+    public void onProviderDisabled(String provider) {
+
     }
 
     private class DrawerItemClickListener implements ListView.OnItemClickListener {
@@ -196,12 +220,19 @@ public class HomeScreen extends AppCompatActivity implements ViewAllUsersFragmen
                 scanQR(view);
                 break;
             case 2:
+                Log.e("Dans Debugs","1");
                 fragment  = new ViewAllUsersFragment();
                 fragment.setArguments(args);
-                fragmentManager.setCustomAnimations(R.transition.activity_slide, R.transition.activity_slideout, R.transition.activity_slidereverse,R.transition.activity_slideoutreverse);
+                Log.e("Dans Debugs", "1");
+
+                fragmentManager.setCustomAnimations(R.transition.activity_slide, R.transition.activity_slideout, R.transition.activity_slidereverse, R.transition.activity_slideoutreverse);
+                Log.e("Dans Debugs", "1");
+
                 fragmentManager
                         .replace(R.id.content_frame, fragment).addToBackStack( null )
                         .commit();
+                Log.e("Dans Debugs", "1");
+
                 break;
             case 3:
                 Intent sendIntent = new Intent(Intent.ACTION_VIEW);
@@ -255,7 +286,7 @@ public class HomeScreen extends AppCompatActivity implements ViewAllUsersFragmen
 
                 fragment  = new ViewUserFragment();
 
-
+                Toast.makeText(this.getApplicationContext(),"LongLat: " +CurrentLocation, Toast.LENGTH_LONG).show();
                 args.putInt(ViewUserFragment.ARG_USERID, Integer.parseInt(contents));
 
 

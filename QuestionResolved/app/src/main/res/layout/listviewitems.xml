@@ -2,7 +2,8 @@
                 android:layout_width="fill_parent"
                 android:layout_height="?android:attr/listPreferredItemHeight"
                 android:padding="6dip"
-                android:background="#ffffff">
+                android:background="#ffffff"
+    android:elevation="5dp">
 
     <ImageView
         android:id="@+id/icon"
@@ -11,7 +12,10 @@
         android:layout_alignParentBottom="true"
         android:layout_alignParentTop="true"
         android:layout_marginRight="6dip"
-        android:contentDescription="TODO"/>
+        android:contentDescription="TODO"
+        android:elevation="10dp"
+        android:src="@+drawable/user168"
+        android:background="@android:color/darker_gray" />
 
     <TextView
         android:id="@+id/secondLine"

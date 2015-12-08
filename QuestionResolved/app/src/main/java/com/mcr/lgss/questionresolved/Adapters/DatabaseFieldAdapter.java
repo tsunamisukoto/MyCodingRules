@@ -2,6 +2,7 @@ package com.mcr.lgss.questionresolved.Adapters;
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -17,7 +18,7 @@ public class DatabaseFieldAdapter extends ArrayAdapter<Object> {
     private final Object[] values;
 
     public DatabaseFieldAdapter(Context context, Object[] values) {
-        super(context, R.layout.listviewitems, values);
+        super(context, R.layout.listitem_databasefields, values);
         this.context = context;
         this.values = values;
     }
@@ -26,14 +27,13 @@ public class DatabaseFieldAdapter extends ArrayAdapter<Object> {
     public View getView(int position, View convertView, ViewGroup parent) {
         LayoutInflater inflater = (LayoutInflater) context
                 .getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-        View rowView = inflater.inflate(R.layout.listviewitems, parent, false);
+        View rowView = inflater.inflate(R.layout.listitem_databasefields, parent, false);
         TextView textView = (TextView) rowView.findViewById(R.id.firstLine);
         TextView textView2 = (TextView) rowView.findViewById(R.id.secondLine);
         ImageView imageView = (ImageView) rowView.findViewById(R.id.icon);
         DatabaseField p = (DatabaseField)values[position];
-        textView.setText(p.FieldName);
-        textView2.setText(p.FieldValue);
-
+        textView.setText(p.FieldValue);
+        textView2.setText(p.FieldName);
           if(p.resource!=0)
           {
               imageView.setImageResource(p.resource);

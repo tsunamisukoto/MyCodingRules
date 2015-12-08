@@ -36,10 +36,16 @@ public class PersonArrayAdapter extends ArrayAdapter<Object> {
         // Change the icon for Windows and iPhone
         if(p.Image!=null)
         {
-            Bitmap workingImage= BitmapFactory.decodeByteArray(p.Image, 0,p.Image.length);
+            Bitmap workingImage=BitmapFactory.decodeByteArray(p.Image, 0, p.Image.length);
 
 if(workingImage!=null)
-            imageView.setImageBitmap(workingImage);
+{
+    workingImage= Bitmap.createScaledBitmap( workingImage,400,400,false);
+    imageView.setImageBitmap(workingImage);
+}
+
+            else
+    imageView.setImageResource(R.drawable.user168);
 
         }
 

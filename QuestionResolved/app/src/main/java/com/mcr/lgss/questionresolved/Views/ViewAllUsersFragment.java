@@ -3,6 +3,7 @@ package com.mcr.lgss.questionresolved.Views;
 import android.app.Activity;
 import android.os.Bundle;
 import android.app.Fragment;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -72,17 +73,8 @@ ArrayList<Person> people=new ArrayList<>();
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        people=new ArrayList<>();
-        if (getArguments() != null) {
-            mParam1 = getArguments().getString(ARG_PARAM1);
-            mParam2 = getArguments().getString(ARG_PARAM2);
-        }
-        DatabaseHelper dbHelper;
 
-        dbHelper = new DatabaseHelper(getActivity().getApplicationContext());
-        dbHelper.GetPeople(people);
-        // TODO: Change Adapter to display your content
-        mAdapter = new PersonArrayAdapter(getActivity(),people.toArray() );
+
     }
     @Override
     public void onAttach(Activity activity) {
@@ -101,12 +93,25 @@ ArrayList<Person> people=new ArrayList<>();
 
         // Set the adapter
         mListView = (AbsListView) view.findViewById(android.R.id.list);
-        ((AdapterView<ListAdapter>) mListView).setAdapter(mAdapter);
+        people=new ArrayList<>();
+        if (getArguments() != null) {
+            mParam1 = getArguments().getString(ARG_PARAM1);
+            mParam2 = getArguments().getString(ARG_PARAM2);
+        }
+        DatabaseHelper dbHelper;
+
+        dbHelper = new DatabaseHelper(getActivity().getApplicationContext());
+
+        dbHelper.GetPeople(people);
+
+        // TODO: Change Adapter to display your content
+        mAdapter = new PersonArrayAdapter(getActivity(),people.toArray() );
+        ( mListView).setAdapter(mAdapter);
+
         ImageButton btnAdd =(ImageButton) view.findViewById(R.id.btn_add);
         btnAdd.setOnClickListener(this);
         // Set OnItemClickListener so we can be notified on item clicks
         mListView.setOnItemClickListener(this);
-
         return view;
     }
 
