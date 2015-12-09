@@ -29,11 +29,13 @@ public class PersonArrayAdapter extends ArrayAdapter<Object> {
         View rowView = inflater.inflate(R.layout.listviewitems, parent, false);
         TextView textView = (TextView) rowView.findViewById(R.id.firstLine);
         TextView textView2 = (TextView) rowView.findViewById(R.id.secondLine);
+        TextView textView3 = (TextView) rowView.findViewById(R.id.textView);
         ImageView imageView = (ImageView) rowView.findViewById(R.id.icon);
         Person p = (Person)values[position];
         textView.setText(p.Name);
-        textView2.setText(p.Description);
-        // Change the icon for Windows and iPhone
+        textView2.setText(p.PosName);
+        textView3.setText(p.ID+"");
+                // Change the icon for Windows and iPhone
         if(p.Image!=null)
         {
             Bitmap workingImage=BitmapFactory.decodeByteArray(p.Image, 0, p.Image.length);

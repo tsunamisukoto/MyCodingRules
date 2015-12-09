@@ -102,7 +102,7 @@ public class ViewUserFragment extends Fragment {
                 if(person != null) {
                     ArrayList<DatabaseField> dbfields = new ArrayList<>();
                     dbfields.add(new DatabaseField(R.drawable.user168, "Name", person.Name,null));
-                    dbfields.add(new DatabaseField(0, "Description", person.Description,null));
+                    //dbfields.add(new DatabaseField(0, "Description", person.Description,null));
                     dbfields.add(new DatabaseField(0, "Position", person.PosName,null));
                     dbfields.add(new DatabaseField(R.drawable.citation, "Quote", person.Quote,null));
                     dbfields.add(new DatabaseField(R.drawable.phone325, "Phone Number", person.PhoneNumber,new View.OnClickListener() {
@@ -125,7 +125,7 @@ public class ViewUserFragment extends Fragment {
                             startActivity(sendIntent);
                         }
                     } ));
-                    dbfields.add(new DatabaseField(R.drawable.navigation12, "Last Seen Coordinates", person.LastSeenCoordinates ,null));
+                   // dbfields.add(new DatabaseField(R.drawable.navigation12, "Last Seen Coordinates", person.LastSeenCoordinates ,null));
                     ListView lv = (ListView)v.findViewById(R.id.lvInfo);
                     lv.setAdapter(new DatabaseFieldAdapter(getActivity(),dbfields.toArray()));
                     if (person.Image != null) {
