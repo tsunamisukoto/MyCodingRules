@@ -1,12 +1,14 @@
 package com.mcr.lgss.questionresolved.Views;
 
 import android.app.Activity;
-import android.net.Uri;
 import android.os.Bundle;
 import android.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
+import android.widget.ListView;
 
 import com.mcr.lgss.questionresolved.R;
 
@@ -36,8 +38,9 @@ public class HomeScreenFragment extends Fragment {
         fragment.setArguments(args);
         return fragment;
     }
-
+    HomeScreen.DrawerItemClickListener itemClickListener;
     public HomeScreenFragment() {
+
         // Required empty public constructor
     }
 
@@ -48,15 +51,47 @@ public class HomeScreenFragment extends Fragment {
         }
     }
 
+    private String[] mPlanetTitles=new String[]{"Scan For User","Register New User",  "View All Users", "Send Email to All Users"};
+    OnHomeFragmentInteractionListener mListener;
+    @Override
+    public void onAttach(Activity activity) {
+        super.onAttach(activity);
+        try {
+            mListener = (OnHomeFragmentInteractionListener) activity;
+        } catch (ClassCastException e) {
+            throw new ClassCastException(activity.toString()
+                    + " must implement OnAllUsersFragmentInteractionListener");
+        }
+    }
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
+        View v=inflater.inflate(R.layout.fragment_home_screen, container, false);
+
+
+                ListView mDrawerList = (ListView) v.findViewById(R.id.listView  );
+
+        // Set the adapter for the list view
+        mDrawerList.setAdapter(new ArrayAdapter<String>(this.getActivity(),
+                android.R.layout.simple_list_item_1, mPlanetTitles));
+        // Set the list's click listener
+        mDrawerList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                mListener.onHomeFragmentInteraction(position,view);
+            }
+        });
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_home_screen, container, false);
+        return v;
+
     }
 
 
 
 
+    public interface OnHomeFragmentInteractionListener {
+        // TODO: Update argument type and name
+        public void onHomeFragmentInteraction(int id, View view);
+    }
 
 }

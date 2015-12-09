@@ -5,11 +5,24 @@
 
     <!-- TODO: Update blank fragment layout -->
 
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:textAppearance="?android:attr/textAppearanceLarge"
-        android:text="Welcome to The QR User Scanning App"
-        android:id="@+id/textView"
-        android:layout_gravity="left|top" />
+    <LinearLayout
+        android:orientation="vertical"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <ImageView
+            android:layout_width="match_parent"
+            android:layout_height="100dp"
+            android:id="@+id/imageView"
+            android:layout_gravity="center_horizontal|top"
+            android:translationZ="2dp"
+            android:background="@drawable/querky" />
+
+        <ListView
+            android:layout_width="wrap_content"
+            android:layout_height="373dp"
+            android:id="@+id/listView"
+            android:layout_gravity="bottom|center" />
+    </LinearLayout>
+
 </FrameLayout>

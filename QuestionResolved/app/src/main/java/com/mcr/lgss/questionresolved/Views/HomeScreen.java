@@ -12,7 +12,6 @@ import android.location.Location;
 import android.location.LocationListener;
 import android.net.Uri;
 import android.support.v4.widget.DrawerLayout;
-import android.support.v7.app.ActionBarActivity;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -30,12 +29,10 @@ import com.mcr.lgss.questionresolved.Services.DatabaseHelper;
 
 import java.util.ArrayList;
 
-public class HomeScreen extends AppCompatActivity  implements LocationListener, ViewAllUsersFragment.OnAllUsersFragmentInteractionListener  ,ViewUserFragment.OnViewUserFragmentInteractionListener,EditUserFragment.OnEditUserFragmentInteractionListener{
+public class HomeScreen extends AppCompatActivity implements HomeScreenFragment.OnHomeFragmentInteractionListener, LocationListener, ViewAllUsersFragment.OnAllUsersFragmentInteractionListener  ,ViewUserFragment.OnViewUserFragmentInteractionListener,EditUserFragment.OnEditUserFragmentInteractionListener{
     DatabaseHelper dbHelper;
-    private String[] mPlanetTitles=new String[]{"Register New User", "Scan For User", "View All Users", "Send Email to All Users"};
+    private String[] mPlanetTitles=new String[]{"Scan For User","Register New User",  "View All Users", "Send Email to All Users"};
     private ListView mDrawerList;
-    private CharSequence mDrawerTitle="Drawer Title";
-    private CharSequence mTitle="Main Title";
     private DrawerLayout mDrawerLayout;
     private ActionBarDrawerToggle mDrawerToggle;
 
@@ -85,6 +82,9 @@ public class HomeScreen extends AppCompatActivity  implements LocationListener, 
 //                scanQR(v);
 //            }
 //        });
+        getFragmentManager().beginTransaction().setCustomAnimations(R.transition.activity_slide, R.transition.activity_slideout, R.transition.activity_slidereverse, R.transition.activity_slideoutreverse)
+                .replace(R.id.content_frame, new HomeScreenFragment()).addToBackStack(null)
+                .commit();
 
         ArrayList<Person> people=new ArrayList<>();
         people=dbHelper.GetPeople(people);
@@ -188,7 +188,12 @@ public class HomeScreen extends AppCompatActivity  implements LocationListener, 
 
     }
 
-    private class DrawerItemClickListener implements ListView.OnItemClickListener {
+    @Override
+    public void onHomeFragmentInteraction(int id, View view) {
+        selectItem(id,view);
+    }
+
+    public class DrawerItemClickListener extends AppCompatActivity implements ListView.OnItemClickListener {
         @Override
         public void onItemClick(AdapterView parent, View view, int position, long id) {
             selectItem(position,view    );
@@ -204,7 +209,7 @@ public class HomeScreen extends AppCompatActivity  implements LocationListener, 
 
         switch (position)
         {
-            case 0:
+            case 1:
 
                 FragmentTransaction man = fragmentManager;
                 fragment  = new EditUserFragment();
@@ -216,22 +221,17 @@ public class HomeScreen extends AppCompatActivity  implements LocationListener, 
                 man.replace(R.id.content_frame, fragment).addToBackStack( null );
                 man.commit();
                 break;
-            case 1:
+            case 0:
                 scanQR(view);
                 break;
             case 2:
-                Log.e("Dans Debugs","1");
                 fragment  = new ViewAllUsersFragment();
                 fragment.setArguments(args);
-                Log.e("Dans Debugs", "1");
-
                 fragmentManager.setCustomAnimations(R.transition.activity_slide, R.transition.activity_slideout, R.transition.activity_slidereverse, R.transition.activity_slideoutreverse);
-                Log.e("Dans Debugs", "1");
 
                 fragmentManager
                         .replace(R.id.content_frame, fragment).addToBackStack( null )
                         .commit();
-                Log.e("Dans Debugs", "1");
 
                 break;
             case 3:
@@ -349,8 +349,6 @@ public class HomeScreen extends AppCompatActivity  implements LocationListener, 
     }
     @Override
     public void setTitle(CharSequence title) {
-        mTitle = title;
-       // getActionBar().setTitle(mTitle);
     }
 
 }
